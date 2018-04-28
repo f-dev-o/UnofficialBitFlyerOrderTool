@@ -12,8 +12,6 @@ namespace BitFlyerOrderApp
 {
     public partial class OrderListForm : AppForm
     {
-        public const string DATETIME_FORMAT_MDHMS = "MM/dd HH:mm:ss";
-
         private static OrderListForm _instance;
         public static OrderListForm Instance
         {
@@ -28,10 +26,14 @@ namespace BitFlyerOrderApp
         }
 
         Dictionary<string, OrderInfo> bsMap = new Dictionary<string, OrderInfo>();
-        Object bsLock = new object();
-        bool bsLockFlg = false;
+        // 2箇所でしか使わないので雑処理m(__)m
+        Object orderListLock = new object();
+        bool orderTimerLockFlg = false;
 
-        private BindingSource bs;
+        Object positionListLock = new object();
+        bool positionTimerLockFlg = false;
+
+        private BindingSource orderBs, positionBs;
         public OrderListForm() : base()
         {
             InitializeComponent();
@@ -39,14 +41,21 @@ namespace BitFlyerOrderApp
             ApplyMouseMove<System.Windows.Forms.Label>(this);
             ApplyMouseMove<DataGridView>(this);
 
-            bs = new BindingSource
+            orderBs = new BindingSource
             {
                 AllowNew = true,
                 DataSource = new BindingList<OrderInfo>()
             };
-            
             OrderGridView.AutoGenerateColumns = false;
-            OrderGridView.DataSource = bs;            
+            OrderGridView.DataSource = orderBs;
+
+            positionBs = new BindingSource
+            {
+                AllowNew = true,
+                DataSource = new BindingList<PositionInfoResponseJson>()
+            };
+            PositionGridView.AutoGenerateColumns = false;
+            PositionGridView.DataSource = positionBs;
         }
 
         private void OrderListForm_Load(object sender, EventArgs e)
@@ -55,10 +64,10 @@ namespace BitFlyerOrderApp
 
         private async void OrderGridView_Timer(object sender, EventArgs e)
         {
-            lock(bsLock)
+            lock(orderListLock)
             {
-                if (bsLockFlg) return;
-                bsLockFlg = true;
+                if (orderTimerLockFlg) return;
+                orderTimerLockFlg = true;
             }
             OrderCheckTimer.Stop();
 
@@ -84,8 +93,8 @@ namespace BitFlyerOrderApp
                         //ServerResponsedTime
                         //ElapsedTime
                         OrderType = info.child_order_type,
-                        OrderAcceptTime = formatDateIsoToLocal(info.child_order_date, DATETIME_FORMAT_MDHMS),
-                        ExpireDate = formatDateIsoToLocal(info.expire_date, DATETIME_FORMAT_MDHMS),
+                        OrderAcceptTime = Util.FormatDateIsoToLocal(info.child_order_date, Util.DATETIME_FORMAT_MDHMS),
+                        ExpireDate = Util.FormatDateIsoToLocal(info.expire_date, Util.DATETIME_FORMAT_MDHMS),
                         Side = info.side,
                         OrderPrice = info.price,
                         OrderSize = info.size,
@@ -104,19 +113,19 @@ namespace BitFlyerOrderApp
                         {
                             // 既にGridに追加されていれば上書きする
                             // 未承認データの場合は、その項目を追加してから上書きする
-                            var index = bs.List.IndexOf(bsMap[info.child_order_acceptance_id]);
-                            if (!orderInfo.Equals(bs.List[index]))
+                            var index = orderBs.List.IndexOf(bsMap[info.child_order_acceptance_id]);
+                            if (!orderInfo.Equals(orderBs.List[index]))
                             {
                                 // このデータだけは注文時の物を利用するので引き継ぐ
-                                orderInfo.OrderDateTime = ((OrderInfo)bs.List[index]).OrderDateTime;
-                                bs.List[index] = orderInfo;
+                                orderInfo.OrderDateTime = ((OrderInfo)orderBs.List[index]).OrderDateTime;
+                                orderBs.List[index] = orderInfo;
                                 bsMap[info.child_order_acceptance_id] = orderInfo;
                             }
                         }
                         else
                         {
                             // bsMapとGridに追加する
-                            bs.Add(orderInfo);
+                            orderBs.Add(orderInfo);
                             bsMap.Add(info.child_order_acceptance_id, orderInfo);
                         }
                     }
@@ -136,7 +145,7 @@ namespace BitFlyerOrderApp
                         if (orderInfo.ChildOrderId != null
                             || orderInfo.CheckCounter++ > 15)
                         {
-                            bs.List.Remove(bsMap[childId]);
+                            orderBs.List.Remove(bsMap[childId]);
                             bsMap.Remove(childId);
                         }
                         
@@ -144,7 +153,7 @@ namespace BitFlyerOrderApp
                 }
             }
             OrderCheckTimer.Start();
-            lock (bsLock) bsLockFlg = false;
+            lock (orderListLock) orderTimerLockFlg = false;
         }
 
         public void AddOrderInfo(string orderType,
@@ -154,11 +163,11 @@ namespace BitFlyerOrderApp
                 decimal size,
                 string childOrderAcceptanceId)
         {
-            var info = new OrderInfo(orderType, formatDateIsoToLocal(orderDateTime, DATETIME_FORMAT_MDHMS), side, price, size, childOrderAcceptanceId);
+            var info = new OrderInfo(orderType, Util.FormatDateIsoToLocal(orderDateTime, Util.DATETIME_FORMAT_MDHMS), side, price, size, childOrderAcceptanceId);
             lock (bsMap)
             {
                 bsMap[childOrderAcceptanceId] = info;
-                bs.Add(info);
+                orderBs.Add(info);
             }
         }
 
@@ -193,23 +202,42 @@ namespace BitFlyerOrderApp
             };
         }
 
-
-        /**
-         * LocalTime表示への変換
-         **/
-        public string formatDateIsoToLocal(string datetime, string format)
+        private async void PositionGridView_Timer(object sender, EventArgs e)
         {
-            var srcDateTime = DateTime.Parse(datetime, null, System.Globalization.DateTimeStyles.RoundtripKind);
-            return srcDateTime.ToLocalTime().ToString(format);
-        }
+            lock (positionListLock)
+            {
+                if (positionTimerLockFlg) return;
+                positionTimerLockFlg = true;
+            }
+            var list = await BitFlyerApiModel.GetPositionList();
+            var ltp = BitFlyerApiModel.getLastFxLtp();
+            if (list != null)
+            {
+                list.ForEach(row =>
+                {
+                    // ltpが取得できていたら値幅を計算
+                    if (ltp > 0) row.PriceBand = (row.side == BitFlyerApiModel.SIDE_BUY ? ltp - row.price : row.price - ltp);
 
+                    // 既にGridに追加されていれば上書きする
+                    // 未承認データの場合は、その項目を追加してから上書きする
+                    var index = positionBs.List.IndexOf(row);
+                    if (index >= 0)
+                    {
+                        positionBs.List[index] = row;
+                    }
+                    else
+                    {
+                        positionBs.Add(row);
+                    }
+                });
+            }
+            lock (positionListLock) positionTimerLockFlg = false;
+        }
 
         /**
          * DataGridView用
          **/
-#pragma warning disable CS0659 // 型は Object.Equals(object o) をオーバーライドしますが、Object.GetHashCode() をオーバーライドしません
         public class OrderInfo
-#pragma warning restore CS0659 // 型は Object.Equals(object o) をオーバーライドしますが、Object.GetHashCode() をオーバーライドしません
         {
             public OrderInfo(
                 string orderType,
@@ -254,6 +282,25 @@ namespace BitFlyerOrderApp
                     && AveragePrice == c.AveragePrice) return true;
                 return false;
             }
+
+            int hashCode = 0;
+            public override int GetHashCode()
+            {
+                int hash = 0;
+                if (hashCode > 0)
+                {
+                    hash = hashCode;
+                }
+                else
+                {
+                    hash =
+                    (ChildOrderAcceptanceId.GetHashCode() * 2)
+                    + ((ChildOrderId == null ? 1 : ChildOrderId.GetHashCode()) * 3)
+                    + (RemainingSize.GetHashCode() * 5)
+                    + (AveragePrice.GetHashCode() * 7);
+                }
+                return hash;
+            }
         }
 
         private void OrderListCloseButton_Click(object sender, EventArgs e)
@@ -272,6 +319,12 @@ namespace BitFlyerOrderApp
         }
 
         public void StartTimer() => OrderCheckTimer.Start();
+
+        private void PositionGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
         public void StopTimer() => OrderCheckTimer.Stop();
     }
 }

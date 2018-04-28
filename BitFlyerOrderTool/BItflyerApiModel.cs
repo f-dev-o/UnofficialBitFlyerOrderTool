@@ -28,7 +28,7 @@ public class BitFlyerApiModel
 
     public const string PRODUCT_CODE_BTC_JPY = "BTC_JPY";
     public const string PRODUCT_CODE_FX_BTC_JPY = "FX_BTC_JPY";
-
+    
     public static async Task<string> Order(string side, decimal price, decimal size, int expire)
     {
         return await Order(side, price, size, expire, 0);
@@ -134,7 +134,7 @@ public class BitFlyerApiModel
     /**
      * 注文一覧
      **/
-    public static async Task<List<HoldOrderInfo>> GetOrderList()
+    public static async Task<List<HoldOrderInfoResponseJson>> GetOrderList()
     {
         var method = "GET";
         var path = "/v1/me/getchildorders";
@@ -143,8 +143,29 @@ public class BitFlyerApiModel
         if (response == null) return null;
         try
         {
-            return JsonUtility.Deserialize<List<HoldOrderInfo>>(response.responseBody);
+            return JsonUtility.Deserialize<List<HoldOrderInfoResponseJson>>(response.responseBody);
         } catch (Exception e) {
+            Console.WriteLine(e.Message);
+            return null;
+        }
+    }
+
+    /**
+     * 建玉一覧
+     **/
+    public static async Task<List<PositionInfoResponseJson>> GetPositionList()
+    {
+        var method = "GET";
+        var path = "/v1/me/getpositions";
+        var query = "?product_code=" + PRODUCT_CODE_FX_BTC_JPY;
+        var response = await SendPrivateApiRequest(method, path, query, "");
+        if (response == null) return null;
+        try
+        {
+            return JsonUtility.Deserialize<List<PositionInfoResponseJson>>(response.responseBody);
+        }
+        catch (Exception e)
+        {
             Console.WriteLine(e.Message);
             return null;
         }
@@ -212,6 +233,9 @@ public class BitFlyerApiModel
         }
         return sb.ToString();
     }
+
+    private static decimal lastFxLtp = 0;
+    public static decimal getLastFxLtp() => lastFxLtp;
     /**
      * 価格乖離取得
      **/
@@ -219,8 +243,10 @@ public class BitFlyerApiModel
     {
         var tickInfo = await GetTickerInfo(PRODUCT_CODE_BTC_JPY);
         var tickInfoFx = await GetTickerInfo(PRODUCT_CODE_FX_BTC_JPY);
-
+        if (tickInfo == null || tickInfoFx == null) return 0;
         if (tickInfo.ltp == 0 || tickInfoFx.ltp == 0) return 0;
+        // cache
+        lastFxLtp = tickInfoFx.ltp;
         return Math.Round((tickInfoFx.ltp / tickInfo.ltp) * 100 - 100, 2);
     }
 
@@ -240,7 +266,7 @@ public class BitFlyerApiModel
         {
             return JsonUtility.Deserialize<TickerInfoResponseJson>(await SendApiRequest("/v1/getticker", " ?product_code=" + product_code));
         }
-        catch (Exception e)
+        catch (Exception)
         {
             // JsonParseエラー等が出たところで、何もできない
             // BitFlyerのAPIは重くなると、クラウドフレアのHTMLを吐き出すのでエラーになる
@@ -257,7 +283,7 @@ public class BitFlyerApiModel
         {
             return JsonUtility.Deserialize<BoardStateResponseJson>(await SendApiRequest("/v1/getboardstate", "?product_code=" + PRODUCT_CODE_FX_BTC_JPY));
         }
-        catch(Exception e)
+        catch(Exception)
         {
             return null;
         }
@@ -393,7 +419,7 @@ public class TickerInfoResponseJson
     [DataMember]
     public decimal volume_by_product { get; set; }
 }
-public class HoldOrderInfo
+public class HoldOrderInfoResponseJson
 {
     [DataMember]
     public decimal id { get; set; }
@@ -427,4 +453,72 @@ public class HoldOrderInfo
     public decimal executed_size { get; set; }
     [DataMember]
     public decimal total_commission { get; set; }
+}
+
+public class PositionInfoResponseJson
+{
+    [DataMember]
+    public string product_code { get; set; }
+    [DataMember]
+    public string side { get; set; }
+    [DataMember]
+    public decimal price { get; set; }
+    [DataMember]
+    public decimal size { get; set; }
+    /** 手数料 */
+    [DataMember]
+    public decimal commission { get; set; }
+    /** Swap(現物のみ?) */
+    [DataMember]
+    public decimal swap_point_accumulate { get; set; }
+    /** 証拠金 */
+    [DataMember]
+    public decimal require_collateral { get; set; }
+    [DataMember]
+    /** exec_dateに対応 */
+    public string open_date { get; set; }
+    /** レバレッジ */
+    [DataMember]
+    public decimal leverage { get; set; }
+    /** 評価金額? */
+    [DataMember]
+    public decimal pnl { get; set; }
+    [DataMember]
+    public decimal sfd { get; set; }
+    /** 一覧表示拡張用 */
+    public decimal PriceBand { get; set; }
+    public string localDateTime { get { return Util.FormatDateIsoToLocal(open_date, Util.DATETIME_FORMAT_MDHMS); } }
+
+    public override bool Equals(object obj)
+    {
+        if (obj == null || this.GetType() != obj.GetType()) return false;
+
+        PositionInfoResponseJson c = (PositionInfoResponseJson)obj;
+        if (open_date == c.open_date
+            && side == c.side
+            && price == c.price
+            && size == c.size
+            && require_collateral == c.require_collateral) return true;
+        return false;
+    }
+
+    int hashCode = 0;
+    public override int GetHashCode()
+    {
+        int hash = 0;
+        if (hashCode > 0)
+        {
+            hash = hashCode;
+        }
+        else
+        {
+            hash =
+            (open_date.GetHashCode() * 2)
+            + (side.GetHashCode() * 3)
+            + (price.GetHashCode() * 5)
+            + (size.GetHashCode() * 7)
+            + (require_collateral.GetHashCode() * 11);
+        }
+        return hash;
+    }
 }
