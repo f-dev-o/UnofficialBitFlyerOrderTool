@@ -26,6 +26,9 @@ public class BitFlyerApiModel
     public const string TIME_IN_FORCE_IOC = "IOC";
     public const string TIME_IN_FORCE_FOK = "FOK";
 
+    public const string PRODUCT_CODE_BTC_JPY = "BTC_JPY";
+    public const string PRODUCT_CODE_FX_BTC_JPY = "FX_BTC_JPY";
+
     public static async Task<string> Order(string side, decimal price, decimal size, int expire)
     {
         return await Order(side, price, size, expire, 0);
@@ -42,7 +45,7 @@ public class BitFlyerApiModel
         var query = "";
 
         var orderInfo = new ChildOrderRequestJson();
-        orderInfo.product_code = "FX_BTC_JPY";
+        orderInfo.product_code = PRODUCT_CODE_FX_BTC_JPY;
         orderInfo.child_order_type = CHILD_ORDER_TYPE_LIMIT;
         orderInfo.side = side;
         orderInfo.price = price;
@@ -76,6 +79,57 @@ public class BitFlyerApiModel
             return "";
         }
     }
+    public static async Task<bool> CancelChildOrder(string ChildOrderAcceptanceId)
+    {
+        return await CancelChildOrder(ChildOrderAcceptanceId, 0);
+    }
+
+    public static async Task<bool> CancelChildOrder(string ChildOrderAcceptanceId, int tryCnt)
+    {
+        var method = "POST";
+        var path = "/v1/me/cancelchildorder";
+        var query = "";
+
+        var reqJsonObj = new CancelChildOrderRequestJson();
+        reqJsonObj.product_code = PRODUCT_CODE_FX_BTC_JPY;
+        reqJsonObj.child_order_acceptance_id = ChildOrderAcceptanceId;
+
+        var body = JsonUtility.Serialize(reqJsonObj);
+
+        var response = await SendPrivateApiRequest(method, path, query, body);
+
+        // エラーや、200以外の場合はりトライ実施
+        if (response == null
+            || response.statusCode != HttpStatusCode.OK)
+        {
+            if (OrderRetry > 0 && OrderRetry >= tryCnt) return await CancelChildOrder(ChildOrderAcceptanceId, tryCnt + 1);
+            return false;
+        }
+        return true;
+    }
+    public static async Task<bool> CancelAllChildOrder() => await CancelAllChildOrder(0);
+    public static async Task<bool> CancelAllChildOrder(int tryCnt)
+    {
+        var method = "POST";
+        var path = "/v1/me/cancelallchildorders";
+        var query = "";
+
+        var reqJsonObj = new CancelAllChildOrderRequestJson();
+        reqJsonObj.product_code = PRODUCT_CODE_FX_BTC_JPY;
+
+        var body = JsonUtility.Serialize(reqJsonObj);
+
+        var response = await SendPrivateApiRequest(method, path, query, body);
+
+        // エラーや、200以外の場合はりトライ実施
+        if (response == null
+            || response.statusCode != HttpStatusCode.OK)
+        {
+            if (OrderRetry > 0 && OrderRetry >= tryCnt) return await CancelAllChildOrder(tryCnt + 1);
+            return false;
+        }
+        return true;
+    }
 
     /**
      * 注文一覧
@@ -84,7 +138,7 @@ public class BitFlyerApiModel
     {
         var method = "GET";
         var path = "/v1/me/getchildorders";
-        var query = "?product_code=FX_BTC_JPY&child_order_state=ACTIVE";
+        var query = "?product_code=" + PRODUCT_CODE_FX_BTC_JPY + "&child_order_state=ACTIVE";
         var response = await SendPrivateApiRequest(method, path, query, "");
         if (response == null) return null;
         try
@@ -163,8 +217,8 @@ public class BitFlyerApiModel
      **/
     public static async Task<decimal> GetPriceSepalationRate()
     {
-        var tickInfo = await GetTickerInfo("btc_jpy");
-        var tickInfoFx = await GetTickerInfo("fx_btc_jpy");
+        var tickInfo = await GetTickerInfo(PRODUCT_CODE_BTC_JPY);
+        var tickInfoFx = await GetTickerInfo(PRODUCT_CODE_FX_BTC_JPY);
 
         if (tickInfo.ltp == 0 || tickInfoFx.ltp == 0) return 0;
         return Math.Round((tickInfoFx.ltp / tickInfo.ltp) * 100 - 100, 2);
@@ -175,7 +229,7 @@ public class BitFlyerApiModel
      **/
     public static async Task<decimal> GetFxLastPrice()
     {
-        var tickerInfo = await GetTickerInfo("fx_btc_jpy");
+        var tickerInfo = await GetTickerInfo(PRODUCT_CODE_FX_BTC_JPY);
         if (tickerInfo == null) return 0;
         return tickerInfo.ltp;
     }
@@ -185,7 +239,7 @@ public class BitFlyerApiModel
     /**
      * サーバステータス取得 
      **/
-    public static async Task<BoardStateResponseJson> GetServerStatus() => JsonUtility.Deserialize<BoardStateResponseJson>(await SendApiRequest("/v1/getboardstate", "?product_code=fx_btc_jpy"));
+    public static async Task<BoardStateResponseJson> GetServerStatus() => JsonUtility.Deserialize<BoardStateResponseJson>(await SendApiRequest("/v1/getboardstate", "?product_code=" + PRODUCT_CODE_FX_BTC_JPY));
 
     /**
      * パブリックAPIリクエスト
@@ -223,6 +277,19 @@ static class DateTimeOffsetExtension
     }
 }
 
+public class ResponseObject
+{
+    public System.Net.HttpStatusCode statusCode;
+    public System.Net.Http.Headers.HttpResponseHeaders responseHeader;
+    public string responseBody;
+
+    public ResponseObject(HttpStatusCode statusCode, HttpResponseHeaders responseHeader, string responseBody)
+    {
+        this.statusCode = statusCode;
+        this.responseHeader = responseHeader;
+        this.responseBody = responseBody;
+    }
+}
 
 [DataContract]
 public class ChildOrderRequestJson
@@ -243,25 +310,28 @@ public class ChildOrderRequestJson
     public string time_in_force { get; set; }
 }
 
-public class ResponseObject
-{
-    public System.Net.HttpStatusCode statusCode;
-    public System.Net.Http.Headers.HttpResponseHeaders responseHeader;
-    public string responseBody;
-
-    public ResponseObject(HttpStatusCode statusCode, HttpResponseHeaders responseHeader, string responseBody)
-    {
-        this.statusCode = statusCode;
-        this.responseHeader = responseHeader;
-        this.responseBody = responseBody;
-    }
-}
 
 [DataContract]
 public class ChildOrderResponseJson
 {
     [DataMember]
     public string child_order_acceptance_id { get; set; }
+}
+
+[DataContract]
+public class CancelChildOrderRequestJson
+{
+    [DataMember]
+    public string product_code { get; set; }
+
+    [DataMember]
+    public string child_order_acceptance_id { get; set; }
+}
+[DataContract]
+public class CancelAllChildOrderRequestJson
+{
+    [DataMember]
+    public string product_code { get; set; }
 }
 
 [DataContract]

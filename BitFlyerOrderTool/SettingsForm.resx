@@ -120,10 +120,10 @@
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="SaveButton.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAACBSURBVDhP1Y7BCYAwEARTgiVYQkqxBEuzFDuwFO0gjpJFDXdEfQgOLCR3mSXhn6SUOtLk6zMQ
-        e7IxkaOES5uPLryRLEYtBjKTuA8M2JXyQqJkYZYws2VneSnh7MuCgVlC6rJgYZWc8WXBg7JE1GXBw/vf
-        9kBQyXNZIG4l7+QPCWEFBtc+wTG0zIQAAAAASUVORK5CYII=
+        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAIFJREFUOE/V
+        jsEJgDAQBFOCJVhCSrEES7MUO7AU7SCOkkUNd0R9CA4sJHeZJeGfpJQ60uTrMxB7sjGRo4RLm48uvJEs
+        Ri0GMpO4DwzYlfJComRhljCzZWd5KeHsy4KBWULqsmBhlZzxZcGDskTUZcHD+9/2QFDJc1kgbiXv5A8J
+        YQUG1z7BMbTMhAAAAABJRU5ErkJggg==
 </value>
   </data>
 </root>

@@ -47,6 +47,7 @@
             this.TimeInForceBox = new System.Windows.Forms.ComboBox();
             this.RetryCountLabel = new System.Windows.Forms.Label();
             this.OrderRetryInputBox = new System.Windows.Forms.NumericUpDown();
+            this.SettingCloseButton = new System.Windows.Forms.Button();
             this.OrderExpirePanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SizeInputBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.OrderRetryInputBox)).BeginInit();
@@ -59,7 +60,7 @@
             this.APIKeyLabel.Location = new System.Drawing.Point(12, 35);
             this.APIKeyLabel.Name = "APIKeyLabel";
             this.APIKeyLabel.Size = new System.Drawing.Size(61, 20);
-            this.APIKeyLabel.TabIndex = 0;
+            this.APIKeyLabel.TabIndex = 99;
             this.APIKeyLabel.Text = "API-Key";
             // 
             // APIKeyInputBox
@@ -81,7 +82,7 @@
             this.APISecretLabel.Location = new System.Drawing.Point(12, 58);
             this.APISecretLabel.Name = "APISecretLabel";
             this.APISecretLabel.Size = new System.Drawing.Size(78, 20);
-            this.APISecretLabel.TabIndex = 0;
+            this.APISecretLabel.TabIndex = 99;
             this.APISecretLabel.Text = "API-Secret";
             // 
             // APISecretInputBox
@@ -94,7 +95,7 @@
             this.APISecretInputBox.Location = new System.Drawing.Point(101, 61);
             this.APISecretInputBox.Name = "APISecretInputBox";
             this.APISecretInputBox.Size = new System.Drawing.Size(202, 17);
-            this.APISecretInputBox.TabIndex = 1;
+            this.APISecretInputBox.TabIndex = 2;
             // 
             // SaveButton
             // 
@@ -105,10 +106,10 @@
             this.SaveButton.FlatAppearance.BorderSize = 0;
             this.SaveButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.SaveButton.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.SaveButton.Location = new System.Drawing.Point(297, 4);
+            this.SaveButton.Location = new System.Drawing.Point(296, 3);
             this.SaveButton.Name = "SaveButton";
             this.SaveButton.Size = new System.Drawing.Size(24, 24);
-            this.SaveButton.TabIndex = 2;
+            this.SaveButton.TabIndex = 50;
             this.SaveButton.UseVisualStyleBackColor = false;
             this.SaveButton.Click += new System.EventHandler(this.SaveButton_Click);
             // 
@@ -117,7 +118,7 @@
             this.APIInfoPanel.Location = new System.Drawing.Point(13, 35);
             this.APIInfoPanel.Name = "APIInfoPanel";
             this.APIInfoPanel.Size = new System.Drawing.Size(300, 43);
-            this.APIInfoPanel.TabIndex = 3;
+            this.APIInfoPanel.TabIndex = 99;
             // 
             // OrderExpire60
             // 
@@ -126,7 +127,7 @@
             this.OrderExpire60.Location = new System.Drawing.Point(195, 165);
             this.OrderExpire60.Name = "OrderExpire60";
             this.OrderExpire60.Size = new System.Drawing.Size(56, 24);
-            this.OrderExpire60.TabIndex = 24;
+            this.OrderExpire60.TabIndex = 7;
             this.OrderExpire60.Text = "60分";
             this.OrderExpire60.UseVisualStyleBackColor = true;
             // 
@@ -137,7 +138,7 @@
             this.OrderExpire30.Location = new System.Drawing.Point(133, 165);
             this.OrderExpire30.Name = "OrderExpire30";
             this.OrderExpire30.Size = new System.Drawing.Size(56, 24);
-            this.OrderExpire30.TabIndex = 25;
+            this.OrderExpire30.TabIndex = 6;
             this.OrderExpire30.Text = "30分";
             this.OrderExpire30.UseVisualStyleBackColor = true;
             // 
@@ -148,7 +149,7 @@
             this.OrderExpire5.Location = new System.Drawing.Point(79, 165);
             this.OrderExpire5.Name = "OrderExpire5";
             this.OrderExpire5.Size = new System.Drawing.Size(48, 24);
-            this.OrderExpire5.TabIndex = 26;
+            this.OrderExpire5.TabIndex = 5;
             this.OrderExpire5.Text = "5分";
             this.OrderExpire5.UseVisualStyleBackColor = true;
             // 
@@ -160,7 +161,7 @@
             this.OrderExpire1.Location = new System.Drawing.Point(25, 165);
             this.OrderExpire1.Name = "OrderExpire1";
             this.OrderExpire1.Size = new System.Drawing.Size(48, 24);
-            this.OrderExpire1.TabIndex = 27;
+            this.OrderExpire1.TabIndex = 4;
             this.OrderExpire1.TabStop = true;
             this.OrderExpire1.Text = "1分";
             this.OrderExpire1.UseVisualStyleBackColor = true;
@@ -172,7 +173,7 @@
             this.OrderExpireLabel.Location = new System.Drawing.Point(12, -1);
             this.OrderExpireLabel.Name = "OrderExpireLabel";
             this.OrderExpireLabel.Size = new System.Drawing.Size(87, 20);
-            this.OrderExpireLabel.TabIndex = 21;
+            this.OrderExpireLabel.TabIndex = 99;
             this.OrderExpireLabel.Text = "注文有効期間";
             // 
             // OrderExpirePanel
@@ -181,7 +182,7 @@
             this.OrderExpirePanel.Location = new System.Drawing.Point(0, 143);
             this.OrderExpirePanel.Name = "OrderExpirePanel";
             this.OrderExpirePanel.Size = new System.Drawing.Size(270, 57);
-            this.OrderExpirePanel.TabIndex = 28;
+            this.OrderExpirePanel.TabIndex = 99;
             // 
             // SizeLabel
             // 
@@ -190,7 +191,7 @@
             this.SizeLabel.Location = new System.Drawing.Point(12, 107);
             this.SizeLabel.Name = "SizeLabel";
             this.SizeLabel.Size = new System.Drawing.Size(35, 20);
-            this.SizeLabel.TabIndex = 30;
+            this.SizeLabel.TabIndex = 99;
             this.SizeLabel.Text = "数量";
             // 
             // SizeInputBox
@@ -213,7 +214,7 @@
             0});
             this.SizeInputBox.Name = "SizeInputBox";
             this.SizeInputBox.Size = new System.Drawing.Size(86, 23);
-            this.SizeInputBox.TabIndex = 29;
+            this.SizeInputBox.TabIndex = 3;
             this.SizeInputBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.SizeInputBox.ThousandsSeparator = true;
             // 
@@ -224,7 +225,7 @@
             this.TimeInForceLabel.Location = new System.Drawing.Point(12, 220);
             this.TimeInForceLabel.Name = "TimeInForceLabel";
             this.TimeInForceLabel.Size = new System.Drawing.Size(83, 20);
-            this.TimeInForceLabel.TabIndex = 31;
+            this.TimeInForceLabel.TabIndex = 99;
             this.TimeInForceLabel.Text = "TimeInFoce";
             // 
             // TimeInForceBox
@@ -242,7 +243,7 @@
             this.TimeInForceBox.Location = new System.Drawing.Point(101, 217);
             this.TimeInForceBox.Name = "TimeInForceBox";
             this.TimeInForceBox.Size = new System.Drawing.Size(169, 28);
-            this.TimeInForceBox.TabIndex = 32;
+            this.TimeInForceBox.TabIndex = 8;
             this.TimeInForceBox.Format += new System.Windows.Forms.ListControlConvertEventHandler(this.TimeInForceBox_format);
             // 
             // RetryCountLabel
@@ -252,7 +253,7 @@
             this.RetryCountLabel.Location = new System.Drawing.Point(12, 262);
             this.RetryCountLabel.Name = "RetryCountLabel";
             this.RetryCountLabel.Size = new System.Drawing.Size(113, 20);
-            this.RetryCountLabel.TabIndex = 34;
+            this.RetryCountLabel.TabIndex = 99;
             this.RetryCountLabel.Text = "注文リトライ回数";
             // 
             // OrderRetryInputBox
@@ -269,9 +270,24 @@
             0});
             this.OrderRetryInputBox.Name = "OrderRetryInputBox";
             this.OrderRetryInputBox.Size = new System.Drawing.Size(86, 23);
-            this.OrderRetryInputBox.TabIndex = 35;
+            this.OrderRetryInputBox.TabIndex = 9;
             this.OrderRetryInputBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.OrderRetryInputBox.ThousandsSeparator = true;
+            // 
+            // SettingCloseButton
+            // 
+            this.SettingCloseButton.BackgroundImage = global::BitFlyerOrderApp.Properties.Resources.close_16x16;
+            this.SettingCloseButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.SettingCloseButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.SettingCloseButton.FlatAppearance.BorderSize = 0;
+            this.SettingCloseButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.SettingCloseButton.ForeColor = System.Drawing.Color.Firebrick;
+            this.SettingCloseButton.Location = new System.Drawing.Point(0, 0);
+            this.SettingCloseButton.Name = "SettingCloseButton";
+            this.SettingCloseButton.Size = new System.Drawing.Size(28, 28);
+            this.SettingCloseButton.TabIndex = 104;
+            this.SettingCloseButton.UseVisualStyleBackColor = true;
+            this.SettingCloseButton.Click += new System.EventHandler(this.SettingCloseButton_Click);
             // 
             // SettingsForm
             // 
@@ -279,6 +295,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.ClientSize = new System.Drawing.Size(325, 306);
+            this.Controls.Add(this.SettingCloseButton);
             this.Controls.Add(this.OrderRetryInputBox);
             this.Controls.Add(this.RetryCountLabel);
             this.Controls.Add(this.TimeInForceBox);
@@ -335,5 +352,6 @@
         private System.Windows.Forms.ComboBox TimeInForceBox;
         private System.Windows.Forms.Label RetryCountLabel;
         private System.Windows.Forms.NumericUpDown OrderRetryInputBox;
+        private System.Windows.Forms.Button SettingCloseButton;
     }
 }

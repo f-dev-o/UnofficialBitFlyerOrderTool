@@ -308,9 +308,9 @@
             this.AppCloseButton.FlatAppearance.BorderSize = 0;
             this.AppCloseButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.AppCloseButton.ForeColor = System.Drawing.Color.Firebrick;
-            this.AppCloseButton.Location = new System.Drawing.Point(2, 2);
+            this.AppCloseButton.Location = new System.Drawing.Point(0, 0);
             this.AppCloseButton.Name = "AppCloseButton";
-            this.AppCloseButton.Size = new System.Drawing.Size(20, 20);
+            this.AppCloseButton.Size = new System.Drawing.Size(28, 28);
             this.AppCloseButton.TabIndex = 103;
             this.AppCloseButton.UseVisualStyleBackColor = true;
             this.AppCloseButton.Click += new System.EventHandler(this.AppCloseButton_Click);

@@ -53,6 +53,11 @@ namespace BitFlyerOrderApp
             Close();
         }
 
+        private void SettingCloseButton_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
         private int GetOrderExpireValue()
         {
             return
@@ -86,5 +91,6 @@ namespace BitFlyerOrderApp
                 case BitFlyerApiModel.TIME_IN_FORCE_FOK : e.Value = "Fill or Kill"; break;
             }
         }
+
     }
 }

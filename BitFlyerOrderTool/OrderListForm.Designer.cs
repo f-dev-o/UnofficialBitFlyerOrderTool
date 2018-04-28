@@ -40,7 +40,6 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
             this.OrderGridView = new System.Windows.Forms.DataGridView();
-            this.OrderCheckTimer = new System.Windows.Forms.Timer(this.components);
             this.OrderType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.OrderDateTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.OrderAcceptTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -49,10 +48,10 @@
             this.OrderSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.RemainingSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ExpireDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Canncel = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.Cancel = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.ChildOrderAcceptanceId = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.OrderCheckTimer = new System.Windows.Forms.Timer(this.components);
             this.PositionGridView = new System.Windows.Forms.DataGridView();
-            this.OrderLabel = new System.Windows.Forms.Label();
-            this.PositionLabel = new System.Windows.Forms.Label();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -60,6 +59,13 @@
             this.dataGridViewTextBoxColumn7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PriceBand = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.OrderLabel = new System.Windows.Forms.Label();
+            this.PositionLabel = new System.Windows.Forms.Label();
+            this.CancelResultTimer = new System.Windows.Forms.Timer(this.components);
+            this.CancelResultValueLabel = new System.Windows.Forms.Label();
+            this.OrderListCloseButton = new System.Windows.Forms.Button();
+            this.CancelAllButton = new System.Windows.Forms.Button();
+            this.dummy = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.OrderGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PositionGridView)).BeginInit();
             this.SuspendLayout();
@@ -96,7 +102,8 @@
             this.OrderSize,
             this.RemainingSize,
             this.ExpireDate,
-            this.Canncel});
+            this.Cancel,
+            this.ChildOrderAcceptanceId});
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             dataGridViewCellStyle3.Font = new System.Drawing.Font("メイリオ", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
@@ -106,7 +113,8 @@
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.OrderGridView.DefaultCellStyle = dataGridViewCellStyle3;
             this.OrderGridView.EnableHeadersVisualStyles = false;
-            this.OrderGridView.Location = new System.Drawing.Point(0, 26);
+            this.OrderGridView.Location = new System.Drawing.Point(0, 30);
+            this.OrderGridView.MultiSelect = false;
             this.OrderGridView.Name = "OrderGridView";
             this.OrderGridView.ReadOnly = true;
             this.OrderGridView.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
@@ -135,16 +143,12 @@
             this.OrderGridView.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.OrderGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.OrderGridView.ShowCellErrors = false;
+            this.OrderGridView.ShowCellToolTips = false;
             this.OrderGridView.ShowEditingIcon = false;
             this.OrderGridView.ShowRowErrors = false;
-            this.OrderGridView.Size = new System.Drawing.Size(600, 101);
+            this.OrderGridView.Size = new System.Drawing.Size(600, 120);
             this.OrderGridView.TabIndex = 0;
-            // 
-            // OrderCheckTimer
-            // 
-            this.OrderCheckTimer.Enabled = true;
-            this.OrderCheckTimer.Interval = 500;
-            this.OrderCheckTimer.Tick += new System.EventHandler(this.OrderGridView_Timer);
+            this.OrderGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.OrderGridView_CellClick);
             // 
             // OrderType
             // 
@@ -222,14 +226,28 @@
             this.ExpireDate.ReadOnly = true;
             this.ExpireDate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             // 
-            // Canncel
+            // Cancel
             // 
-            this.Canncel.DataPropertyName = "Canncel";
-            this.Canncel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Canncel.HeaderText = "取消";
-            this.Canncel.Name = "Canncel";
-            this.Canncel.ReadOnly = true;
-            this.Canncel.Width = 40;
+            this.Cancel.DataPropertyName = "Cancel";
+            this.Cancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.Cancel.HeaderText = "取消";
+            this.Cancel.Name = "Cancel";
+            this.Cancel.ReadOnly = true;
+            this.Cancel.Width = 40;
+            // 
+            // ChildOrderAcceptanceId
+            // 
+            this.ChildOrderAcceptanceId.DataPropertyName = "ChildOrderAcceptanceId";
+            this.ChildOrderAcceptanceId.HeaderText = "子注文ID";
+            this.ChildOrderAcceptanceId.Name = "ChildOrderAcceptanceId";
+            this.ChildOrderAcceptanceId.ReadOnly = true;
+            this.ChildOrderAcceptanceId.Visible = false;
+            // 
+            // OrderCheckTimer
+            // 
+            this.OrderCheckTimer.Enabled = true;
+            this.OrderCheckTimer.Interval = 500;
+            this.OrderCheckTimer.Tick += new System.EventHandler(this.OrderGridView_Timer);
             // 
             // PositionGridView
             // 
@@ -271,7 +289,7 @@
             dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.PositionGridView.DefaultCellStyle = dataGridViewCellStyle8;
             this.PositionGridView.EnableHeadersVisualStyles = false;
-            this.PositionGridView.Location = new System.Drawing.Point(0, 181);
+            this.PositionGridView.Location = new System.Drawing.Point(0, 191);
             this.PositionGridView.Name = "PositionGridView";
             this.PositionGridView.ReadOnly = true;
             this.PositionGridView.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
@@ -304,30 +322,6 @@
             this.PositionGridView.ShowRowErrors = false;
             this.PositionGridView.Size = new System.Drawing.Size(600, 101);
             this.PositionGridView.TabIndex = 1;
-            // 
-            // OrderLabel
-            // 
-            this.OrderLabel.AutoSize = true;
-            this.OrderLabel.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.OrderLabel.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.OrderLabel.Location = new System.Drawing.Point(0, 0);
-            this.OrderLabel.Name = "OrderLabel";
-            this.OrderLabel.Padding = new System.Windows.Forms.Padding(10, 5, 10, 5);
-            this.OrderLabel.Size = new System.Drawing.Size(60, 26);
-            this.OrderLabel.TabIndex = 2;
-            this.OrderLabel.Text = "注文";
-            // 
-            // PositionLabel
-            // 
-            this.PositionLabel.AutoSize = true;
-            this.PositionLabel.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.PositionLabel.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.PositionLabel.Location = new System.Drawing.Point(0, 155);
-            this.PositionLabel.Name = "PositionLabel";
-            this.PositionLabel.Padding = new System.Windows.Forms.Padding(10, 5, 10, 5);
-            this.PositionLabel.Size = new System.Drawing.Size(60, 26);
-            this.PositionLabel.TabIndex = 3;
-            this.PositionLabel.Text = "建玉";
             // 
             // dataGridViewTextBoxColumn2
             // 
@@ -394,12 +388,93 @@
             this.PriceBand.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.PriceBand.Width = 70;
             // 
+            // OrderLabel
+            // 
+            this.OrderLabel.AutoSize = true;
+            this.OrderLabel.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.OrderLabel.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.OrderLabel.Location = new System.Drawing.Point(30, 0);
+            this.OrderLabel.Name = "OrderLabel";
+            this.OrderLabel.Padding = new System.Windows.Forms.Padding(10, 7, 10, 7);
+            this.OrderLabel.Size = new System.Drawing.Size(60, 30);
+            this.OrderLabel.TabIndex = 2;
+            this.OrderLabel.Text = "注文";
+            // 
+            // PositionLabel
+            // 
+            this.PositionLabel.AutoSize = true;
+            this.PositionLabel.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.PositionLabel.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.PositionLabel.Location = new System.Drawing.Point(30, 161);
+            this.PositionLabel.Name = "PositionLabel";
+            this.PositionLabel.Padding = new System.Windows.Forms.Padding(10, 7, 10, 7);
+            this.PositionLabel.Size = new System.Drawing.Size(60, 30);
+            this.PositionLabel.TabIndex = 3;
+            this.PositionLabel.Text = "建玉";
+            // 
+            // CancelResultTimer
+            // 
+            this.CancelResultTimer.Interval = 1500;
+            // 
+            // CancelResultValueLabel
+            // 
+            this.CancelResultValueLabel.AutoSize = true;
+            this.CancelResultValueLabel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.CancelResultValueLabel.ForeColor = System.Drawing.Color.Lime;
+            this.CancelResultValueLabel.Location = new System.Drawing.Point(460, 9);
+            this.CancelResultValueLabel.Name = "CancelResultValueLabel";
+            this.CancelResultValueLabel.Size = new System.Drawing.Size(0, 12);
+            this.CancelResultValueLabel.TabIndex = 4;
+            // 
+            // OrderListCloseButton
+            // 
+            this.OrderListCloseButton.BackgroundImage = global::BitFlyerOrderApp.Properties.Resources.close_16x16;
+            this.OrderListCloseButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.OrderListCloseButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.OrderListCloseButton.FlatAppearance.BorderSize = 0;
+            this.OrderListCloseButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.OrderListCloseButton.ForeColor = System.Drawing.Color.Firebrick;
+            this.OrderListCloseButton.Location = new System.Drawing.Point(2, 1);
+            this.OrderListCloseButton.Name = "OrderListCloseButton";
+            this.OrderListCloseButton.Size = new System.Drawing.Size(28, 28);
+            this.OrderListCloseButton.TabIndex = 104;
+            this.OrderListCloseButton.UseVisualStyleBackColor = true;
+            this.OrderListCloseButton.Click += new System.EventHandler(this.OrderListCloseButton_Click);
+            // 
+            // CancelAllButton
+            // 
+            this.CancelAllButton.BackColor = System.Drawing.Color.DarkOrange;
+            this.CancelAllButton.FlatAppearance.BorderSize = 0;
+            this.CancelAllButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.CancelAllButton.Font = new System.Drawing.Font("メイリオ", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.CancelAllButton.Location = new System.Drawing.Point(540, 0);
+            this.CancelAllButton.Name = "CancelAllButton";
+            this.CancelAllButton.Size = new System.Drawing.Size(60, 30);
+            this.CancelAllButton.TabIndex = 105;
+            this.CancelAllButton.Text = "全取消";
+            this.CancelAllButton.UseVisualStyleBackColor = false;
+            this.CancelAllButton.Click += new System.EventHandler(this.CancelAllButton_Click);
+            // 
+            // dummy
+            // 
+            this.dummy.AutoSize = true;
+            this.dummy.BackColor = System.Drawing.Color.DarkGray;
+            this.dummy.Location = new System.Drawing.Point(580, 30);
+            this.dummy.Name = "dummy";
+            this.dummy.Padding = new System.Windows.Forms.Padding(10, 8, 10, 0);
+            this.dummy.Size = new System.Drawing.Size(20, 20);
+            this.dummy.TabIndex = 106;
+            // 
             // OrderListForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.ClientSize = new System.Drawing.Size(600, 400);
+            this.Controls.Add(this.dummy);
+            this.Controls.Add(this.CancelAllButton);
+            this.Controls.Add(this.OrderListCloseButton);
+            this.Controls.Add(this.CancelResultValueLabel);
             this.Controls.Add(this.PositionLabel);
             this.Controls.Add(this.OrderLabel);
             this.Controls.Add(this.PositionGridView);
@@ -421,15 +496,6 @@
 
         private System.Windows.Forms.DataGridView OrderGridView;
         private System.Windows.Forms.Timer OrderCheckTimer;
-        private System.Windows.Forms.DataGridViewTextBoxColumn OrderType;
-        private System.Windows.Forms.DataGridViewTextBoxColumn OrderDateTime;
-        private System.Windows.Forms.DataGridViewTextBoxColumn OrderAcceptTime;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Side;
-        private System.Windows.Forms.DataGridViewTextBoxColumn OrderPrice;
-        private System.Windows.Forms.DataGridViewTextBoxColumn OrderSize;
-        private System.Windows.Forms.DataGridViewTextBoxColumn RemainingSize;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ExpireDate;
-        private System.Windows.Forms.DataGridViewButtonColumn Canncel;
         private System.Windows.Forms.DataGridView PositionGridView;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn2;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn4;
@@ -440,5 +506,20 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn PriceBand;
         private System.Windows.Forms.Label OrderLabel;
         private System.Windows.Forms.Label PositionLabel;
+        private System.Windows.Forms.Timer CancelResultTimer;
+        private System.Windows.Forms.Label CancelResultValueLabel;
+        private System.Windows.Forms.Button OrderListCloseButton;
+        private System.Windows.Forms.DataGridViewTextBoxColumn OrderType;
+        private System.Windows.Forms.DataGridViewTextBoxColumn OrderDateTime;
+        private System.Windows.Forms.DataGridViewTextBoxColumn OrderAcceptTime;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Side;
+        private System.Windows.Forms.DataGridViewTextBoxColumn OrderPrice;
+        private System.Windows.Forms.DataGridViewTextBoxColumn OrderSize;
+        private System.Windows.Forms.DataGridViewTextBoxColumn RemainingSize;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ExpireDate;
+        private System.Windows.Forms.DataGridViewButtonColumn Cancel;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ChildOrderAcceptanceId;
+        private System.Windows.Forms.Button CancelAllButton;
+        private System.Windows.Forms.Label dummy;
     }
 }
