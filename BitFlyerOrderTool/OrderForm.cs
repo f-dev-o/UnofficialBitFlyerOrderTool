@@ -40,14 +40,26 @@ namespace BitFlyerOrderApp
             var button = (System.Windows.Forms.Button)sender;
             if (button.Enabled)
             {
+                var listForm = OrderListForm.Instance;
+
                 SetOrderResult("Waiting");
+                
                 button.Enabled = false;
                 var side = button.Name == "BuyButton" ? BitFlyerApiModel.SIDE_BUY : BitFlyerApiModel.SIDE_SELL;
 
                 var result = await BitFlyerApiModel.Order(side, PriceInputBox.Value, SizeInputBox.Value, GetOrderExpireValue());
                 var acceptId = result;
-                bool isSuccess =acceptId != null && acceptId.Length > 0 ? true : false;
+                bool isSuccess = acceptId != null && acceptId.Length > 0 ? true : false;
 
+                if(isSuccess) {
+                    OrderListForm.Instance.AddOrderInfo(
+                        BitFlyerApiModel.CHILD_ORDER_TYPE_LIMIT
+                        , DateTime.UtcNow.ToString()
+                        , side
+                        , PriceInputBox.Value
+                        , SizeInputBox.Value
+                        , acceptId);
+                }
                 SetOrderResult(isSuccess ? "SUCCESS" : "ERROR");
                 button.Enabled = true;
             }
@@ -149,7 +161,8 @@ namespace BitFlyerOrderApp
             OrderResultValueLabel.Text = text;
             var Timer = OrderResultTimer;
             Timer.Start();
-            Timer.Tick += (semder, e) => {
+            Timer.Tick += (semder, e) =>
+            {
                 OrderResultValueLabel.Text = "";
                 ((System.Windows.Forms.Timer)semder).Stop();
             };

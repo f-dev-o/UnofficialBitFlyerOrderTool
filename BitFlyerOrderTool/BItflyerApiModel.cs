@@ -234,12 +234,34 @@ public class BitFlyerApiModel
         return tickerInfo.ltp;
     }
 
-    private static async Task<TickerInfoResponseJson> GetTickerInfo(string product_code) => JsonUtility.Deserialize<TickerInfoResponseJson>(await SendApiRequest("/v1/getticker", " ?product_code=" + product_code));
+    private static async Task<TickerInfoResponseJson> GetTickerInfo(string product_code)
+    {
+        try
+        {
+            return JsonUtility.Deserialize<TickerInfoResponseJson>(await SendApiRequest("/v1/getticker", " ?product_code=" + product_code));
+        }
+        catch (Exception e)
+        {
+            // JsonParseエラー等が出たところで、何もできない
+            // BitFlyerのAPIは重くなると、クラウドフレアのHTMLを吐き出すのでエラーになる
+            return null;
+        }
+    }
 
     /**
      * サーバステータス取得 
      **/
-    public static async Task<BoardStateResponseJson> GetServerStatus() => JsonUtility.Deserialize<BoardStateResponseJson>(await SendApiRequest("/v1/getboardstate", "?product_code=" + PRODUCT_CODE_FX_BTC_JPY));
+    public static async Task<BoardStateResponseJson> GetServerStatus()
+    {
+        try
+        {
+            return JsonUtility.Deserialize<BoardStateResponseJson>(await SendApiRequest("/v1/getboardstate", "?product_code=" + PRODUCT_CODE_FX_BTC_JPY));
+        }
+        catch(Exception e)
+        {
+            return null;
+        }
+    }
 
     /**
      * パブリックAPIリクエスト

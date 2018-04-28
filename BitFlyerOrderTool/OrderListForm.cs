@@ -12,6 +12,8 @@ namespace BitFlyerOrderApp
 {
     public partial class OrderListForm : AppForm
     {
+        public const string DATETIME_FORMAT_MDHMS = "MM/dd HH:mm:ss";
+
         private static OrderListForm _instance;
         public static OrderListForm Instance
         {
@@ -26,6 +28,9 @@ namespace BitFlyerOrderApp
         }
 
         Dictionary<string, OrderInfo> bsMap = new Dictionary<string, OrderInfo>();
+        Object bsLock = new object();
+        bool bsLockFlg = false;
+
         private BindingSource bs;
         public OrderListForm() : base()
         {
@@ -50,6 +55,13 @@ namespace BitFlyerOrderApp
 
         private async void OrderGridView_Timer(object sender, EventArgs e)
         {
+            lock(bsLock)
+            {
+                if (bsLockFlg) return;
+                bsLockFlg = true;
+            }
+            OrderCheckTimer.Stop();
+
             /**
              * DataGridに表示したいもの 
              * 注文命令を出して、child_ochild_order_acceptance_idが発行されたが、注文一覧に未反映の物
@@ -57,7 +69,7 @@ namespace BitFlyerOrderApp
              * 注文処理が終わったものは消去
              **/
             var list = await BitFlyerApiModel.GetOrderList();
-            
+
             if (list != null)
             {
                 // 最新のchild_order_listを保存
@@ -72,8 +84,8 @@ namespace BitFlyerOrderApp
                         //ServerResponsedTime
                         //ElapsedTime
                         OrderType = info.child_order_type,
-                        OrderAcceptTime = formatDateIsoToLocal(info.child_order_date, "MM/dd HH:mm:ss"),
-                        ExpireDate = formatDateIsoToLocal(info.expire_date, "MM/dd HH:mm:ss"),
+                        OrderAcceptTime = formatDateIsoToLocal(info.child_order_date, DATETIME_FORMAT_MDHMS),
+                        ExpireDate = formatDateIsoToLocal(info.expire_date, DATETIME_FORMAT_MDHMS),
                         Side = info.side,
                         OrderPrice = info.price,
                         OrderSize = info.size,
@@ -83,54 +95,71 @@ namespace BitFlyerOrderApp
                         ChildOrderAcceptanceId = info.child_order_acceptance_id,
                         ChildOrderId = info.child_order_id
                     };
-                    
+
                     orderRecodeSet.Add(info.child_order_acceptance_id);
 
-                    if (bsMap.ContainsKey(info.child_order_acceptance_id))
+                    lock (bsMap)
                     {
-                        // 既にGridに追加されていれば上書きする
-                        // 未承認データの場合は、その項目を追加してから上書きする
-                        var index = bs.List.IndexOf(bsMap[info.child_order_acceptance_id]);
-                        if (!orderInfo.Equals(bs.List[index]))
+                        if (bsMap.ContainsKey(info.child_order_acceptance_id))
                         {
-                            bs.List[index] = orderInfo;
-                            bsMap[info.child_order_acceptance_id] = orderInfo;
+                            // 既にGridに追加されていれば上書きする
+                            // 未承認データの場合は、その項目を追加してから上書きする
+                            var index = bs.List.IndexOf(bsMap[info.child_order_acceptance_id]);
+                            if (!orderInfo.Equals(bs.List[index]))
+                            {
+                                // このデータだけは注文時の物を利用するので引き継ぐ
+                                orderInfo.OrderDateTime = ((OrderInfo)bs.List[index]).OrderDateTime;
+                                bs.List[index] = orderInfo;
+                                bsMap[info.child_order_acceptance_id] = orderInfo;
+                            }
                         }
-                    }
-                    else
-                    {
-                        // bsMapとGridに追加する
-                        bs.Add(orderInfo);
-                        bsMap.Add(info.child_order_acceptance_id, orderInfo);
+                        else
+                        {
+                            // bsMapとGridに追加する
+                            bs.Add(orderInfo);
+                            bsMap.Add(info.child_order_acceptance_id, orderInfo);
+                        }
                     }
                 });
 
-                // 保有済みのデータをチェックし古いデータを取り除く
-                foreach (var childId in bsMap.Keys.Reverse())
+                lock (bsMap)
                 {
-                    // 最新情報にあるのでスルー
-                    if (orderRecodeSet.Contains(childId)) continue;
+                    // 保有済みのデータをチェックし古いデータを取り除く
+                    foreach (var childId in bsMap.Keys.Reverse())
+                    {
+                        // 最新情報にあるのでスルー
+                        if (orderRecodeSet.Contains(childId)) continue;
 
-                    var orderInfo = bsMap[childId];
-                    // 今回の確認リストにないが、既に承認済みのレコードは消去
-                    // 注文確定待ち(childOrderIdが未発行の物は残したい)
-                    if (orderInfo.OrderDateTime != "") {
-                        bs.List.Remove(bsMap[childId]);
-                        bsMap.Remove(childId);
+                        var orderInfo = bsMap[childId];
+                        // 今回の確認リストにないが、既に承認済みのレコードは消去
+                        // 注文確定待ち(childOrderIdが未発行の物は残したい)
+                        if (orderInfo.ChildOrderId != null
+                            || orderInfo.CheckCounter++ > 15)
+                        {
+                            bs.List.Remove(bsMap[childId]);
+                            bsMap.Remove(childId);
+                        }
+                        
                     }
                 }
-            
             }
+            OrderCheckTimer.Start();
+            lock (bsLock) bsLockFlg = false;
         }
 
         public void AddOrderInfo(string orderType,
                 string orderDateTime,
-                string serverResponsedTime,
                 string side,
+                decimal price,
                 decimal size,
                 string childOrderAcceptanceId)
         {
-            bs.Add(new OrderInfo(orderType, orderDateTime, serverResponsedTime, side, size, childOrderAcceptanceId));
+            var info = new OrderInfo(orderType, formatDateIsoToLocal(orderDateTime, DATETIME_FORMAT_MDHMS), side, price, size, childOrderAcceptanceId);
+            lock (bsMap)
+            {
+                bsMap[childOrderAcceptanceId] = info;
+                bs.Add(info);
+            }
         }
 
         private async void OrderGridView_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -185,15 +214,15 @@ namespace BitFlyerOrderApp
             public OrderInfo(
                 string orderType,
                 string orderDateTime, 
-                string serverResponsedTime, 
-                string side, 
+                string side,
+                decimal orderPrice,
                 decimal orderSize,
                 string childOrderAcceptanceId)
             {
                 OrderType = orderType;
                 OrderDateTime = orderDateTime;
-                ServerResponsedTime = serverResponsedTime;
                 Side = side;
+                OrderPrice = orderPrice;
                 OrderSize = orderSize;
                 ChildOrderAcceptanceId = childOrderAcceptanceId;
             }
@@ -201,7 +230,6 @@ namespace BitFlyerOrderApp
 
             public string OrderType { get; set; }
             public string OrderDateTime { get; set; }
-            public string ServerResponsedTime { get; set; }
             public string OrderAcceptTime { get; set; }
             public string Side { get; set; }
             public string ElapsedTime { get; set; }
@@ -213,6 +241,7 @@ namespace BitFlyerOrderApp
             public string Cancel { get; set; }
             public string ChildOrderAcceptanceId { get; set; }
             public string ChildOrderId { get; set; }
+            public int CheckCounter { get; set; }
 
             public override bool Equals(object obj)
             {
@@ -241,5 +270,8 @@ namespace BitFlyerOrderApp
             if (result) OrderGridView_Timer(null, null);
             OrderCheckTimer.Start();
         }
+
+        public void StartTimer() => OrderCheckTimer.Start();
+        public void StopTimer() => OrderCheckTimer.Stop();
     }
 }
