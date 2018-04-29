@@ -213,13 +213,19 @@ namespace BitFlyerOrderApp
             var ltp = BitFlyerApiModel.getLastFxLtp();
             if (list != null)
             {
+                decimal wAvePrice = 0, sizeSum = 0, pnlSum = 0, collateralSum = 0;
+                string side = "";
                 list.ForEach(row =>
                 {
+                    side = row.side;
                     // ltpが取得できていたら値幅を計算
-                    if (ltp > 0) row.PriceBand = (row.side == BitFlyerApiModel.SIDE_BUY ? ltp - row.price : row.price - ltp);
+                    if (ltp > 0) row.PriceBand = (side == BitFlyerApiModel.SIDE_BUY ? ltp - row.price : row.price - ltp);
+                    wAvePrice += row.price * row.size;
+                    sizeSum += row.size;
+                    pnlSum += row.pnl;
+                    collateralSum += row.require_collateral;
 
                     // 既にGridに追加されていれば上書きする
-                    // 未承認データの場合は、その項目を追加してから上書きする
                     var index = positionBs.List.IndexOf(row);
                     if (index >= 0)
                     {
@@ -230,6 +236,17 @@ namespace BitFlyerOrderApp
                         positionBs.Add(row);
                     }
                 });
+                
+                if (list.Count == 0) positionBs.Clear();
+                wAvePrice = (sizeSum > 0 ? wAvePrice / sizeSum : 0);
+                PositionWeightedAveragePriceLabelValue.Text = wAvePrice.ToString("#,##0");
+                PositionSizeSumValueLabel.Text = sizeSum.ToString("N3");
+                PositionPnlSumValueLabel.Text = pnlSum.ToString("+#,##0;-#,##0");
+                PositionCollateralSumValueLabel.Text = collateralSum.ToString("#,##0");
+                PositionPriceBandValueLabel.Text = (ltp > 0 && wAvePrice > 0
+                    ? (side == BitFlyerApiModel.SIDE_BUY ? ltp - wAvePrice : wAvePrice - ltp)
+                    : 0).ToString("+#,##0;-#,##0");
+
             }
             lock (positionListLock) positionTimerLockFlg = false;
         }

@@ -84,6 +84,12 @@
             this.PriceBand = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PositionGridView_require_collateral = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PositionGridView_sfd = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PositionSummaryHeaderLabel = new System.Windows.Forms.Label();
+            this.PositionWeightedAveragePriceLabelValue = new System.Windows.Forms.Label();
+            this.PositionSizeSumValueLabel = new System.Windows.Forms.Label();
+            this.PositionPnlSumValueLabel = new System.Windows.Forms.Label();
+            this.PositionCollateralSumValueLabel = new System.Windows.Forms.Label();
+            this.PositionPriceBandValueLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.OrderGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PositionGridView)).BeginInit();
             this.SuspendLayout();
@@ -305,7 +311,7 @@
             this.PositionLabel.AutoSize = true;
             this.PositionLabel.BackColor = System.Drawing.SystemColors.ControlDark;
             this.PositionLabel.Font = new System.Drawing.Font("MS UI Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.PositionLabel.Location = new System.Drawing.Point(30, 161);
+            this.PositionLabel.Location = new System.Drawing.Point(30, 163);
             this.PositionLabel.Name = "PositionLabel";
             this.PositionLabel.Padding = new System.Windows.Forms.Padding(10, 7, 10, 7);
             this.PositionLabel.Size = new System.Drawing.Size(60, 30);
@@ -412,7 +418,7 @@
             dataGridViewCellStyle24.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.PositionGridView.DefaultCellStyle = dataGridViewCellStyle24;
             this.PositionGridView.EnableHeadersVisualStyles = false;
-            this.PositionGridView.Location = new System.Drawing.Point(0, 191);
+            this.PositionGridView.Location = new System.Drawing.Point(0, 213);
             this.PositionGridView.Name = "PositionGridView";
             this.PositionGridView.ReadOnly = true;
             this.PositionGridView.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
@@ -552,12 +558,96 @@
             this.PositionGridView_sfd.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.PositionGridView_sfd.Width = 70;
             // 
+            // PositionSummaryHeaderLabel
+            // 
+            this.PositionSummaryHeaderLabel.AutoSize = true;
+            this.PositionSummaryHeaderLabel.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.PositionSummaryHeaderLabel.Font = new System.Drawing.Font("メイリオ", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.PositionSummaryHeaderLabel.Location = new System.Drawing.Point(-3, 193);
+            this.PositionSummaryHeaderLabel.Margin = new System.Windows.Forms.Padding(0);
+            this.PositionSummaryHeaderLabel.Name = "PositionSummaryHeaderLabel";
+            this.PositionSummaryHeaderLabel.Padding = new System.Windows.Forms.Padding(20, 1, 520, 1);
+            this.PositionSummaryHeaderLabel.Size = new System.Drawing.Size(603, 20);
+            this.PositionSummaryHeaderLabel.TabIndex = 107;
+            this.PositionSummaryHeaderLabel.Text = "Ave/Sum";
+            // 
+            // PositionWeightedAveragePriceLabelValue
+            // 
+            this.PositionWeightedAveragePriceLabelValue.AutoSize = true;
+            this.PositionWeightedAveragePriceLabelValue.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.PositionWeightedAveragePriceLabelValue.Font = new System.Drawing.Font("メイリオ", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.PositionWeightedAveragePriceLabelValue.Location = new System.Drawing.Point(171, 195);
+            this.PositionWeightedAveragePriceLabelValue.Margin = new System.Windows.Forms.Padding(0);
+            this.PositionWeightedAveragePriceLabelValue.Name = "PositionWeightedAveragePriceLabelValue";
+            this.PositionWeightedAveragePriceLabelValue.Size = new System.Drawing.Size(15, 18);
+            this.PositionWeightedAveragePriceLabelValue.TabIndex = 108;
+            this.PositionWeightedAveragePriceLabelValue.Text = "0";
+            this.PositionWeightedAveragePriceLabelValue.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // PositionSizeSumValueLabel
+            // 
+            this.PositionSizeSumValueLabel.AutoSize = true;
+            this.PositionSizeSumValueLabel.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.PositionSizeSumValueLabel.Font = new System.Drawing.Font("メイリオ", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.PositionSizeSumValueLabel.Location = new System.Drawing.Point(257, 195);
+            this.PositionSizeSumValueLabel.Margin = new System.Windows.Forms.Padding(0);
+            this.PositionSizeSumValueLabel.Name = "PositionSizeSumValueLabel";
+            this.PositionSizeSumValueLabel.Size = new System.Drawing.Size(15, 18);
+            this.PositionSizeSumValueLabel.TabIndex = 109;
+            this.PositionSizeSumValueLabel.Text = "0";
+            this.PositionSizeSumValueLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // PositionPnlSumValueLabel
+            // 
+            this.PositionPnlSumValueLabel.AutoSize = true;
+            this.PositionPnlSumValueLabel.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.PositionPnlSumValueLabel.Font = new System.Drawing.Font("メイリオ", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.PositionPnlSumValueLabel.Location = new System.Drawing.Point(316, 195);
+            this.PositionPnlSumValueLabel.Margin = new System.Windows.Forms.Padding(0);
+            this.PositionPnlSumValueLabel.Name = "PositionPnlSumValueLabel";
+            this.PositionPnlSumValueLabel.Size = new System.Drawing.Size(15, 18);
+            this.PositionPnlSumValueLabel.TabIndex = 110;
+            this.PositionPnlSumValueLabel.Text = "0";
+            this.PositionPnlSumValueLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // PositionCollateralSumValueLabel
+            // 
+            this.PositionCollateralSumValueLabel.AutoSize = true;
+            this.PositionCollateralSumValueLabel.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.PositionCollateralSumValueLabel.Font = new System.Drawing.Font("メイリオ", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.PositionCollateralSumValueLabel.Location = new System.Drawing.Point(457, 195);
+            this.PositionCollateralSumValueLabel.Margin = new System.Windows.Forms.Padding(0);
+            this.PositionCollateralSumValueLabel.Name = "PositionCollateralSumValueLabel";
+            this.PositionCollateralSumValueLabel.Size = new System.Drawing.Size(15, 18);
+            this.PositionCollateralSumValueLabel.TabIndex = 111;
+            this.PositionCollateralSumValueLabel.Text = "0";
+            this.PositionCollateralSumValueLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // PositionPriceBandValueLabel
+            // 
+            this.PositionPriceBandValueLabel.AutoSize = true;
+            this.PositionPriceBandValueLabel.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.PositionPriceBandValueLabel.Font = new System.Drawing.Font("メイリオ", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.PositionPriceBandValueLabel.Location = new System.Drawing.Point(387, 195);
+            this.PositionPriceBandValueLabel.Margin = new System.Windows.Forms.Padding(0);
+            this.PositionPriceBandValueLabel.Name = "PositionPriceBandValueLabel";
+            this.PositionPriceBandValueLabel.Size = new System.Drawing.Size(15, 18);
+            this.PositionPriceBandValueLabel.TabIndex = 110;
+            this.PositionPriceBandValueLabel.Text = "0";
+            this.PositionPriceBandValueLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // OrderListForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.ClientSize = new System.Drawing.Size(600, 318);
+            this.Controls.Add(this.PositionCollateralSumValueLabel);
+            this.Controls.Add(this.PositionPriceBandValueLabel);
+            this.Controls.Add(this.PositionPnlSumValueLabel);
+            this.Controls.Add(this.PositionSizeSumValueLabel);
+            this.Controls.Add(this.PositionWeightedAveragePriceLabelValue);
+            this.Controls.Add(this.PositionSummaryHeaderLabel);
             this.Controls.Add(this.dummy);
             this.Controls.Add(this.CancelAllButton);
             this.Controls.Add(this.OrderListCloseButton);
@@ -610,5 +700,11 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn PriceBand;
         private System.Windows.Forms.DataGridViewTextBoxColumn PositionGridView_require_collateral;
         private System.Windows.Forms.DataGridViewTextBoxColumn PositionGridView_sfd;
+        private System.Windows.Forms.Label PositionSummaryHeaderLabel;
+        private System.Windows.Forms.Label PositionWeightedAveragePriceLabelValue;
+        private System.Windows.Forms.Label PositionSizeSumValueLabel;
+        private System.Windows.Forms.Label PositionPnlSumValueLabel;
+        private System.Windows.Forms.Label PositionCollateralSumValueLabel;
+        private System.Windows.Forms.Label PositionPriceBandValueLabel;
     }
 }
