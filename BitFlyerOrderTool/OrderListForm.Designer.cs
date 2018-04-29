@@ -55,6 +55,12 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle32 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle27 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle28 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle29 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle30 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle31 = new System.Windows.Forms.DataGridViewCellStyle();
             this.OrderGridView = new System.Windows.Forms.DataGridView();
             this.OrderType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.OrderDateTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -81,17 +87,19 @@
             this.PositionGridView_price = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PositionGridView_size = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PositionGridView_pnl = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.PriceBand = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PositionGridView_PriceBand = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PositionGridView_require_collateral = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PositionGridView_sfd = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PositionSummaryHeaderLabel = new System.Windows.Forms.Label();
-            this.PositionWeightedAveragePriceLabelValue = new System.Windows.Forms.Label();
-            this.PositionSizeSumValueLabel = new System.Windows.Forms.Label();
-            this.PositionPnlSumValueLabel = new System.Windows.Forms.Label();
-            this.PositionCollateralSumValueLabel = new System.Windows.Forms.Label();
-            this.PositionPriceBandValueLabel = new System.Windows.Forms.Label();
+            this.PositionSummaryGridView = new System.Windows.Forms.DataGridView();
+            this.PositionWeightedAveragePrice = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PositionSizeSum = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PositionPnlSum = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PositionPriceBand = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PositionCollateralSum = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.OrderGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PositionGridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PositionSummaryGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // OrderGridView
@@ -406,7 +414,7 @@
             this.PositionGridView_price,
             this.PositionGridView_size,
             this.PositionGridView_pnl,
-            this.PriceBand,
+            this.PositionGridView_PriceBand,
             this.PositionGridView_require_collateral,
             this.PositionGridView_sfd});
             dataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
@@ -521,18 +529,18 @@
             this.PositionGridView_pnl.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.PositionGridView_pnl.Width = 70;
             // 
-            // PriceBand
+            // PositionGridView_PriceBand
             // 
-            this.PriceBand.DataPropertyName = "PriceBand";
+            this.PositionGridView_PriceBand.DataPropertyName = "PriceBand";
             dataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle21.Format = "+#,##0;-#,##0";
             dataGridViewCellStyle21.NullValue = "0";
-            this.PriceBand.DefaultCellStyle = dataGridViewCellStyle21;
-            this.PriceBand.HeaderText = "獲得値幅";
-            this.PriceBand.Name = "PriceBand";
-            this.PriceBand.ReadOnly = true;
-            this.PriceBand.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.PriceBand.Width = 70;
+            this.PositionGridView_PriceBand.DefaultCellStyle = dataGridViewCellStyle21;
+            this.PositionGridView_PriceBand.HeaderText = "獲得値幅";
+            this.PositionGridView_PriceBand.Name = "PositionGridView_PriceBand";
+            this.PositionGridView_PriceBand.ReadOnly = true;
+            this.PositionGridView_PriceBand.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.PositionGridView_PriceBand.Width = 70;
             // 
             // PositionGridView_require_collateral
             // 
@@ -566,75 +574,99 @@
             this.PositionSummaryHeaderLabel.Location = new System.Drawing.Point(-3, 193);
             this.PositionSummaryHeaderLabel.Margin = new System.Windows.Forms.Padding(0);
             this.PositionSummaryHeaderLabel.Name = "PositionSummaryHeaderLabel";
-            this.PositionSummaryHeaderLabel.Padding = new System.Windows.Forms.Padding(20, 1, 520, 1);
-            this.PositionSummaryHeaderLabel.Size = new System.Drawing.Size(603, 20);
+            this.PositionSummaryHeaderLabel.Padding = new System.Windows.Forms.Padding(20, 1, 70, 1);
+            this.PositionSummaryHeaderLabel.Size = new System.Drawing.Size(153, 20);
             this.PositionSummaryHeaderLabel.TabIndex = 107;
             this.PositionSummaryHeaderLabel.Text = "Ave/Sum";
             // 
-            // PositionWeightedAveragePriceLabelValue
+            // PositionSummaryGridView
             // 
-            this.PositionWeightedAveragePriceLabelValue.AutoSize = true;
-            this.PositionWeightedAveragePriceLabelValue.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.PositionWeightedAveragePriceLabelValue.Font = new System.Drawing.Font("メイリオ", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.PositionWeightedAveragePriceLabelValue.Location = new System.Drawing.Point(171, 195);
-            this.PositionWeightedAveragePriceLabelValue.Margin = new System.Windows.Forms.Padding(0);
-            this.PositionWeightedAveragePriceLabelValue.Name = "PositionWeightedAveragePriceLabelValue";
-            this.PositionWeightedAveragePriceLabelValue.Size = new System.Drawing.Size(15, 18);
-            this.PositionWeightedAveragePriceLabelValue.TabIndex = 108;
-            this.PositionWeightedAveragePriceLabelValue.Text = "0";
-            this.PositionWeightedAveragePriceLabelValue.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.PositionSummaryGridView.AllowUserToAddRows = false;
+            this.PositionSummaryGridView.AllowUserToDeleteRows = false;
+            this.PositionSummaryGridView.AllowUserToResizeColumns = false;
+            this.PositionSummaryGridView.AllowUserToResizeRows = false;
+            this.PositionSummaryGridView.BackgroundColor = System.Drawing.SystemColors.ControlDark;
+            this.PositionSummaryGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.PositionSummaryGridView.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None;
+            this.PositionSummaryGridView.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.Disable;
+            this.PositionSummaryGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            this.PositionSummaryGridView.ColumnHeadersHeight = 21;
+            this.PositionSummaryGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this.PositionSummaryGridView.ColumnHeadersVisible = false;
+            this.PositionSummaryGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.PositionWeightedAveragePrice,
+            this.PositionSizeSum,
+            this.PositionPnlSum,
+            this.PositionPriceBand,
+            this.PositionCollateralSum});
+            dataGridViewCellStyle32.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle32.BackColor = System.Drawing.SystemColors.ControlDark;
+            dataGridViewCellStyle32.Font = new System.Drawing.Font("メイリオ", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            dataGridViewCellStyle32.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle32.SelectionBackColor = System.Drawing.SystemColors.ControlDark;
+            dataGridViewCellStyle32.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle32.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.PositionSummaryGridView.DefaultCellStyle = dataGridViewCellStyle32;
+            this.PositionSummaryGridView.EnableHeadersVisualStyles = false;
+            this.PositionSummaryGridView.Location = new System.Drawing.Point(140, 193);
+            this.PositionSummaryGridView.MultiSelect = false;
+            this.PositionSummaryGridView.Name = "PositionSummaryGridView";
+            this.PositionSummaryGridView.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            this.PositionSummaryGridView.RowHeadersVisible = false;
+            this.PositionSummaryGridView.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            this.PositionSummaryGridView.RowTemplate.Height = 21;
+            this.PositionSummaryGridView.ScrollBars = System.Windows.Forms.ScrollBars.None;
+            this.PositionSummaryGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.PositionSummaryGridView.ShowCellErrors = false;
+            this.PositionSummaryGridView.ShowCellToolTips = false;
+            this.PositionSummaryGridView.ShowEditingIcon = false;
+            this.PositionSummaryGridView.ShowRowErrors = false;
+            this.PositionSummaryGridView.Size = new System.Drawing.Size(460, 20);
+            this.PositionSummaryGridView.TabIndex = 112;
             // 
-            // PositionSizeSumValueLabel
+            // PositionWeightedAveragePrice
             // 
-            this.PositionSizeSumValueLabel.AutoSize = true;
-            this.PositionSizeSumValueLabel.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.PositionSizeSumValueLabel.Font = new System.Drawing.Font("メイリオ", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.PositionSizeSumValueLabel.Location = new System.Drawing.Point(257, 195);
-            this.PositionSizeSumValueLabel.Margin = new System.Windows.Forms.Padding(0);
-            this.PositionSizeSumValueLabel.Name = "PositionSizeSumValueLabel";
-            this.PositionSizeSumValueLabel.Size = new System.Drawing.Size(15, 18);
-            this.PositionSizeSumValueLabel.TabIndex = 109;
-            this.PositionSizeSumValueLabel.Text = "0";
-            this.PositionSizeSumValueLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.PositionWeightedAveragePrice.DataPropertyName = "wAvePrice";
+            dataGridViewCellStyle27.Format = "#,##0";
+            this.PositionWeightedAveragePrice.DefaultCellStyle = dataGridViewCellStyle27;
+            this.PositionWeightedAveragePrice.HeaderText = "価格加重平均";
+            this.PositionWeightedAveragePrice.Name = "PositionWeightedAveragePrice";
             // 
-            // PositionPnlSumValueLabel
+            // PositionSizeSum
             // 
-            this.PositionPnlSumValueLabel.AutoSize = true;
-            this.PositionPnlSumValueLabel.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.PositionPnlSumValueLabel.Font = new System.Drawing.Font("メイリオ", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.PositionPnlSumValueLabel.Location = new System.Drawing.Point(316, 195);
-            this.PositionPnlSumValueLabel.Margin = new System.Windows.Forms.Padding(0);
-            this.PositionPnlSumValueLabel.Name = "PositionPnlSumValueLabel";
-            this.PositionPnlSumValueLabel.Size = new System.Drawing.Size(15, 18);
-            this.PositionPnlSumValueLabel.TabIndex = 110;
-            this.PositionPnlSumValueLabel.Text = "0";
-            this.PositionPnlSumValueLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.PositionSizeSum.DataPropertyName = "sizeSum";
+            dataGridViewCellStyle28.Format = "N3";
+            this.PositionSizeSum.DefaultCellStyle = dataGridViewCellStyle28;
+            this.PositionSizeSum.HeaderText = "数量合計";
+            this.PositionSizeSum.Name = "PositionSizeSum";
+            this.PositionSizeSum.Width = 50;
             // 
-            // PositionCollateralSumValueLabel
+            // PositionPnlSum
             // 
-            this.PositionCollateralSumValueLabel.AutoSize = true;
-            this.PositionCollateralSumValueLabel.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.PositionCollateralSumValueLabel.Font = new System.Drawing.Font("メイリオ", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.PositionCollateralSumValueLabel.Location = new System.Drawing.Point(457, 195);
-            this.PositionCollateralSumValueLabel.Margin = new System.Windows.Forms.Padding(0);
-            this.PositionCollateralSumValueLabel.Name = "PositionCollateralSumValueLabel";
-            this.PositionCollateralSumValueLabel.Size = new System.Drawing.Size(15, 18);
-            this.PositionCollateralSumValueLabel.TabIndex = 111;
-            this.PositionCollateralSumValueLabel.Text = "0";
-            this.PositionCollateralSumValueLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.PositionPnlSum.DataPropertyName = "pnlSum";
+            dataGridViewCellStyle29.Format = "+#,##0;-#,##0";
+            this.PositionPnlSum.DefaultCellStyle = dataGridViewCellStyle29;
+            this.PositionPnlSum.HeaderText = "評価損益合計";
+            this.PositionPnlSum.Name = "PositionPnlSum";
+            this.PositionPnlSum.Width = 70;
             // 
-            // PositionPriceBandValueLabel
+            // PositionPriceBand
             // 
-            this.PositionPriceBandValueLabel.AutoSize = true;
-            this.PositionPriceBandValueLabel.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.PositionPriceBandValueLabel.Font = new System.Drawing.Font("メイリオ", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.PositionPriceBandValueLabel.Location = new System.Drawing.Point(387, 195);
-            this.PositionPriceBandValueLabel.Margin = new System.Windows.Forms.Padding(0);
-            this.PositionPriceBandValueLabel.Name = "PositionPriceBandValueLabel";
-            this.PositionPriceBandValueLabel.Size = new System.Drawing.Size(15, 18);
-            this.PositionPriceBandValueLabel.TabIndex = 110;
-            this.PositionPriceBandValueLabel.Text = "0";
-            this.PositionPriceBandValueLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.PositionPriceBand.DataPropertyName = "priceBand";
+            dataGridViewCellStyle30.Format = "+#,##0;-#,##0";
+            dataGridViewCellStyle30.NullValue = null;
+            this.PositionPriceBand.DefaultCellStyle = dataGridViewCellStyle30;
+            this.PositionPriceBand.HeaderText = "獲得値幅合計";
+            this.PositionPriceBand.Name = "PositionPriceBand";
+            this.PositionPriceBand.Width = 70;
+            // 
+            // PositionCollateralSum
+            // 
+            this.PositionCollateralSum.DataPropertyName = "collateralSum";
+            dataGridViewCellStyle31.Format = "#,##0";
+            this.PositionCollateralSum.DefaultCellStyle = dataGridViewCellStyle31;
+            this.PositionCollateralSum.HeaderText = "取引証拠金合計";
+            this.PositionCollateralSum.Name = "PositionCollateralSum";
             // 
             // OrderListForm
             // 
@@ -642,11 +674,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.ClientSize = new System.Drawing.Size(600, 318);
-            this.Controls.Add(this.PositionCollateralSumValueLabel);
-            this.Controls.Add(this.PositionPriceBandValueLabel);
-            this.Controls.Add(this.PositionPnlSumValueLabel);
-            this.Controls.Add(this.PositionSizeSumValueLabel);
-            this.Controls.Add(this.PositionWeightedAveragePriceLabelValue);
+            this.Controls.Add(this.PositionSummaryGridView);
             this.Controls.Add(this.PositionSummaryHeaderLabel);
             this.Controls.Add(this.dummy);
             this.Controls.Add(this.CancelAllButton);
@@ -664,6 +692,7 @@
             this.Load += new System.EventHandler(this.OrderListForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.OrderGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PositionGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PositionSummaryGridView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -697,14 +726,15 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn PositionGridView_price;
         private System.Windows.Forms.DataGridViewTextBoxColumn PositionGridView_size;
         private System.Windows.Forms.DataGridViewTextBoxColumn PositionGridView_pnl;
-        private System.Windows.Forms.DataGridViewTextBoxColumn PriceBand;
+        private System.Windows.Forms.DataGridViewTextBoxColumn PositionGridView_PriceBand;
         private System.Windows.Forms.DataGridViewTextBoxColumn PositionGridView_require_collateral;
         private System.Windows.Forms.DataGridViewTextBoxColumn PositionGridView_sfd;
         private System.Windows.Forms.Label PositionSummaryHeaderLabel;
-        private System.Windows.Forms.Label PositionWeightedAveragePriceLabelValue;
-        private System.Windows.Forms.Label PositionSizeSumValueLabel;
-        private System.Windows.Forms.Label PositionPnlSumValueLabel;
-        private System.Windows.Forms.Label PositionCollateralSumValueLabel;
-        private System.Windows.Forms.Label PositionPriceBandValueLabel;
+        private System.Windows.Forms.DataGridView PositionSummaryGridView;
+        private System.Windows.Forms.DataGridViewTextBoxColumn PositionWeightedAveragePrice;
+        private System.Windows.Forms.DataGridViewTextBoxColumn PositionSizeSum;
+        private System.Windows.Forms.DataGridViewTextBoxColumn PositionPnlSum;
+        private System.Windows.Forms.DataGridViewTextBoxColumn PositionPriceBand;
+        private System.Windows.Forms.DataGridViewTextBoxColumn PositionCollateralSum;
     }
 }

@@ -26,5 +26,8 @@
     <Setting Name="DEFAULT_ORDER_RETRY" Type="System.Decimal" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
+    <Setting Name="DEFAULT_ORDER_SAFTY_LIMIT" Type="System.Decimal" Scope="User">
+      <Value Profile="(Default)">0.5</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

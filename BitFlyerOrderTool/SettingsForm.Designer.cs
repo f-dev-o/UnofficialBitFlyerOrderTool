@@ -48,9 +48,13 @@
             this.RetryCountLabel = new System.Windows.Forms.Label();
             this.OrderRetryInputBox = new System.Windows.Forms.NumericUpDown();
             this.SettingCloseButton = new System.Windows.Forms.Button();
+            this.OrderSaftyLabel = new System.Windows.Forms.Label();
+            this.SaftyLimitInputBox = new System.Windows.Forms.NumericUpDown();
+            this.OrderSaftySuffixLabel = new System.Windows.Forms.Label();
             this.OrderExpirePanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SizeInputBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.OrderRetryInputBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.SaftyLimitInputBox)).BeginInit();
             this.SuspendLayout();
             // 
             // APIKeyLabel
@@ -124,7 +128,7 @@
             // 
             this.OrderExpire60.AutoSize = true;
             this.OrderExpire60.ForeColor = System.Drawing.Color.White;
-            this.OrderExpire60.Location = new System.Drawing.Point(195, 165);
+            this.OrderExpire60.Location = new System.Drawing.Point(195, 195);
             this.OrderExpire60.Name = "OrderExpire60";
             this.OrderExpire60.Size = new System.Drawing.Size(56, 24);
             this.OrderExpire60.TabIndex = 7;
@@ -135,7 +139,7 @@
             // 
             this.OrderExpire30.AutoSize = true;
             this.OrderExpire30.ForeColor = System.Drawing.Color.White;
-            this.OrderExpire30.Location = new System.Drawing.Point(133, 165);
+            this.OrderExpire30.Location = new System.Drawing.Point(133, 195);
             this.OrderExpire30.Name = "OrderExpire30";
             this.OrderExpire30.Size = new System.Drawing.Size(56, 24);
             this.OrderExpire30.TabIndex = 6;
@@ -146,7 +150,7 @@
             // 
             this.OrderExpire5.AutoSize = true;
             this.OrderExpire5.ForeColor = System.Drawing.Color.White;
-            this.OrderExpire5.Location = new System.Drawing.Point(79, 165);
+            this.OrderExpire5.Location = new System.Drawing.Point(79, 195);
             this.OrderExpire5.Name = "OrderExpire5";
             this.OrderExpire5.Size = new System.Drawing.Size(48, 24);
             this.OrderExpire5.TabIndex = 5;
@@ -158,7 +162,7 @@
             this.OrderExpire1.AutoSize = true;
             this.OrderExpire1.Checked = true;
             this.OrderExpire1.ForeColor = System.Drawing.Color.White;
-            this.OrderExpire1.Location = new System.Drawing.Point(25, 165);
+            this.OrderExpire1.Location = new System.Drawing.Point(25, 195);
             this.OrderExpire1.Name = "OrderExpire1";
             this.OrderExpire1.Size = new System.Drawing.Size(48, 24);
             this.OrderExpire1.TabIndex = 4;
@@ -179,7 +183,7 @@
             // OrderExpirePanel
             // 
             this.OrderExpirePanel.Controls.Add(this.OrderExpireLabel);
-            this.OrderExpirePanel.Location = new System.Drawing.Point(0, 143);
+            this.OrderExpirePanel.Location = new System.Drawing.Point(0, 173);
             this.OrderExpirePanel.Name = "OrderExpirePanel";
             this.OrderExpirePanel.Size = new System.Drawing.Size(270, 57);
             this.OrderExpirePanel.TabIndex = 99;
@@ -188,7 +192,7 @@
             // 
             this.SizeLabel.AutoSize = true;
             this.SizeLabel.ForeColor = System.Drawing.Color.White;
-            this.SizeLabel.Location = new System.Drawing.Point(12, 107);
+            this.SizeLabel.Location = new System.Drawing.Point(12, 137);
             this.SizeLabel.Name = "SizeLabel";
             this.SizeLabel.Size = new System.Drawing.Size(35, 20);
             this.SizeLabel.TabIndex = 99;
@@ -205,7 +209,7 @@
             0,
             0,
             131072});
-            this.SizeInputBox.Location = new System.Drawing.Point(101, 104);
+            this.SizeInputBox.Location = new System.Drawing.Point(101, 134);
             this.SizeInputBox.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.SizeInputBox.Maximum = new decimal(new int[] {
             1000,
@@ -222,7 +226,7 @@
             // 
             this.TimeInForceLabel.AutoSize = true;
             this.TimeInForceLabel.ForeColor = System.Drawing.Color.White;
-            this.TimeInForceLabel.Location = new System.Drawing.Point(12, 220);
+            this.TimeInForceLabel.Location = new System.Drawing.Point(12, 250);
             this.TimeInForceLabel.Name = "TimeInForceLabel";
             this.TimeInForceLabel.Size = new System.Drawing.Size(83, 20);
             this.TimeInForceLabel.TabIndex = 99;
@@ -240,7 +244,7 @@
             "GTC",
             "IOC",
             "FOK"});
-            this.TimeInForceBox.Location = new System.Drawing.Point(101, 217);
+            this.TimeInForceBox.Location = new System.Drawing.Point(101, 247);
             this.TimeInForceBox.Name = "TimeInForceBox";
             this.TimeInForceBox.Size = new System.Drawing.Size(169, 28);
             this.TimeInForceBox.TabIndex = 8;
@@ -250,7 +254,7 @@
             // 
             this.RetryCountLabel.AutoSize = true;
             this.RetryCountLabel.ForeColor = System.Drawing.Color.White;
-            this.RetryCountLabel.Location = new System.Drawing.Point(12, 262);
+            this.RetryCountLabel.Location = new System.Drawing.Point(12, 292);
             this.RetryCountLabel.Name = "RetryCountLabel";
             this.RetryCountLabel.Size = new System.Drawing.Size(113, 20);
             this.RetryCountLabel.TabIndex = 99;
@@ -261,7 +265,7 @@
             this.OrderRetryInputBox.BackColor = System.Drawing.Color.DarkGray;
             this.OrderRetryInputBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.OrderRetryInputBox.ForeColor = System.Drawing.SystemColors.InactiveBorder;
-            this.OrderRetryInputBox.Location = new System.Drawing.Point(184, 262);
+            this.OrderRetryInputBox.Location = new System.Drawing.Point(184, 292);
             this.OrderRetryInputBox.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
             this.OrderRetryInputBox.Maximum = new decimal(new int[] {
             10,
@@ -289,12 +293,60 @@
             this.SettingCloseButton.UseVisualStyleBackColor = true;
             this.SettingCloseButton.Click += new System.EventHandler(this.SettingCloseButton_Click);
             // 
+            // OrderSaftyLabel
+            // 
+            this.OrderSaftyLabel.AutoSize = true;
+            this.OrderSaftyLabel.ForeColor = System.Drawing.Color.White;
+            this.OrderSaftyLabel.Location = new System.Drawing.Point(12, 104);
+            this.OrderSaftyLabel.Name = "OrderSaftyLabel";
+            this.OrderSaftyLabel.Size = new System.Drawing.Size(61, 20);
+            this.OrderSaftyLabel.TabIndex = 106;
+            this.OrderSaftyLabel.Text = "注文制限";
+            // 
+            // SaftyLimitInputBox
+            // 
+            this.SaftyLimitInputBox.BackColor = System.Drawing.Color.DarkGray;
+            this.SaftyLimitInputBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.SaftyLimitInputBox.DecimalPlaces = 2;
+            this.SaftyLimitInputBox.ForeColor = System.Drawing.SystemColors.InactiveBorder;
+            this.SaftyLimitInputBox.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.SaftyLimitInputBox.Location = new System.Drawing.Point(101, 101);
+            this.SaftyLimitInputBox.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
+            this.SaftyLimitInputBox.Maximum = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+            this.SaftyLimitInputBox.Name = "SaftyLimitInputBox";
+            this.SaftyLimitInputBox.Size = new System.Drawing.Size(86, 23);
+            this.SaftyLimitInputBox.TabIndex = 105;
+            this.SaftyLimitInputBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.SaftyLimitInputBox.ThousandsSeparator = true;
+            // 
+            // OrderSaftySuffixLabel
+            // 
+            this.OrderSaftySuffixLabel.AutoSize = true;
+            this.OrderSaftySuffixLabel.Font = new System.Drawing.Font("メイリオ", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.OrderSaftySuffixLabel.ForeColor = System.Drawing.Color.White;
+            this.OrderSaftySuffixLabel.Location = new System.Drawing.Point(191, 101);
+            this.OrderSaftySuffixLabel.Name = "OrderSaftySuffixLabel";
+            this.OrderSaftySuffixLabel.Size = new System.Drawing.Size(25, 23);
+            this.OrderSaftySuffixLabel.TabIndex = 107;
+            this.OrderSaftySuffixLabel.Text = "%";
+            // 
             // SettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.ClientSize = new System.Drawing.Size(325, 306);
+            this.ClientSize = new System.Drawing.Size(325, 330);
+            this.Controls.Add(this.OrderSaftySuffixLabel);
+            this.Controls.Add(this.OrderSaftyLabel);
+            this.Controls.Add(this.SaftyLimitInputBox);
             this.Controls.Add(this.SettingCloseButton);
             this.Controls.Add(this.OrderRetryInputBox);
             this.Controls.Add(this.RetryCountLabel);
@@ -327,6 +379,7 @@
             this.OrderExpirePanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SizeInputBox)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.OrderRetryInputBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.SaftyLimitInputBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -353,5 +406,8 @@
         private System.Windows.Forms.Label RetryCountLabel;
         private System.Windows.Forms.NumericUpDown OrderRetryInputBox;
         private System.Windows.Forms.Button SettingCloseButton;
+        private System.Windows.Forms.Label OrderSaftyLabel;
+        private System.Windows.Forms.NumericUpDown SaftyLimitInputBox;
+        private System.Windows.Forms.Label OrderSaftySuffixLabel;
     }
 }

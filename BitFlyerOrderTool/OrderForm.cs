@@ -14,6 +14,7 @@ namespace BitFlyerOrderApp
 {
     public partial class OrderForm : AppForm
     {
+        static private decimal OrderSaftyLimit { get { return BitFlyerOrderApp.Properties.Settings.Default.DEFAULT_ORDER_SAFTY_LIMIT; } }
 
         public OrderForm() : base()
         {
@@ -38,6 +39,37 @@ namespace BitFlyerOrderApp
         private async void OrderButton_Click(object sender, EventArgs e)
         {
             var button = (System.Windows.Forms.Button)sender;
+            var inputPrice = PriceInputBox.Value;
+            var ltp = BitFlyerApiModel.getLastFxLtp();
+            var side = (button.Name == "BuyButton") ? BitFlyerApiModel.SIDE_BUY : BitFlyerApiModel.SIDE_SELL;
+
+            if (ltp < 0)
+            {
+                SetOrderResult("GetLtpError");
+                return;
+            } else
+            {
+                // 不利な方向のミス注文を防ぎたい
+                // 価格よりN%以上高い買い注文を拒否
+                // 価格よりN%以上低い売り注文を拒否
+                if(side == BitFlyerApiModel.SIDE_BUY)
+                {
+                    if(ltp * (OrderSaftyLimit / 100m + 1) < inputPrice)
+                    {
+                        SetOrderResult("SaftyLimit");
+                        return;
+                    }
+                }
+                else
+                {
+                    if (ltp * (1 - (OrderSaftyLimit / 100m)) > inputPrice)
+                    {
+                        SetOrderResult("SaftyLimit");
+                        return;
+                    }
+                }
+            }
+            
             if (button.Enabled)
             {
                 var listForm = OrderListForm.Instance;
@@ -45,7 +77,6 @@ namespace BitFlyerOrderApp
                 SetOrderResult("Waiting");
                 
                 button.Enabled = false;
-                var side = button.Name == "BuyButton" ? BitFlyerApiModel.SIDE_BUY : BitFlyerApiModel.SIDE_SELL;
 
                 var result = await BitFlyerApiModel.Order(side, PriceInputBox.Value, SizeInputBox.Value, GetOrderExpireValue());
                 var acceptId = result;
@@ -82,7 +113,7 @@ namespace BitFlyerOrderApp
             var statusInfo = await BitFlyerApiModel.GetServerStatus();
             if (statusInfo != null)
             {
-                ServerStatusValueLabel.Text = "[" + statusInfo.health + "]";
+                ServerStatusValueLabel.Text = statusInfo.health;
             }
 
             var sepalationPriceRate = await BitFlyerApiModel.GetPriceSepalationRate();
@@ -95,6 +126,14 @@ namespace BitFlyerOrderApp
                     : sepalationPriceRate >= 10 ? " (SFD:0.50%)"
                     : sepalationPriceRate >= 5 ? " (SFD:0.25%)"
                     : "");
+            }
+
+            // Bitflyerは現在価格の50％未満200%以上の金額はエラーになる
+            // 入力制限してしまった方が楽なので制限する
+            var ltp = BitFlyerApiModel.getLastFxLtp();
+            if (ltp > 0) {
+                PriceInputBox.Minimum = ltp * 0.5m;
+                PriceInputBox.Maximum = ltp * 2;
             }
         }
 

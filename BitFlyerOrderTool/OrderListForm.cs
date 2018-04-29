@@ -33,7 +33,7 @@ namespace BitFlyerOrderApp
         Object positionListLock = new object();
         bool positionTimerLockFlg = false;
 
-        private BindingSource orderBs, positionBs;
+        private BindingSource orderBs, positionSumBs, positionBs;
         public OrderListForm() : base()
         {
             InitializeComponent();
@@ -56,6 +56,14 @@ namespace BitFlyerOrderApp
             };
             PositionGridView.AutoGenerateColumns = false;
             PositionGridView.DataSource = positionBs;
+
+            positionSumBs = new BindingSource
+            {
+                AllowNew = true,
+                DataSource = new BindingList<PositionSummaryInfo>()
+            };
+            PositionSummaryGridView.AutoGenerateColumns = false;
+            PositionSummaryGridView.DataSource = positionSumBs;
         }
 
         private void OrderListForm_Load(object sender, EventArgs e)
@@ -148,8 +156,10 @@ namespace BitFlyerOrderApp
                             orderBs.List.Remove(bsMap[childId]);
                             bsMap.Remove(childId);
                         }
-                        
                     }
+                    // タイミングが悪いと、orderBsだけ残る場合がある
+                    // Lockを増やすより、上書きした方がコストがかからない
+                    if (bsMap.Count() == 0) orderBs.Clear();
                 }
             }
             OrderCheckTimer.Start();
@@ -236,21 +246,46 @@ namespace BitFlyerOrderApp
                         positionBs.Add(row);
                     }
                 });
-                
-                if (list.Count == 0) positionBs.Clear();
-                wAvePrice = (sizeSum > 0 ? wAvePrice / sizeSum : 0);
-                PositionWeightedAveragePriceLabelValue.Text = wAvePrice.ToString("#,##0");
-                PositionSizeSumValueLabel.Text = sizeSum.ToString("N3");
-                PositionPnlSumValueLabel.Text = pnlSum.ToString("+#,##0;-#,##0");
-                PositionCollateralSumValueLabel.Text = collateralSum.ToString("#,##0");
-                PositionPriceBandValueLabel.Text = (ltp > 0 && wAvePrice > 0
-                    ? (side == BitFlyerApiModel.SIDE_BUY ? ltp - wAvePrice : wAvePrice - ltp)
-                    : 0).ToString("+#,##0;-#,##0");
 
+                if (list.Count == 0)
+                {
+                    positionBs.Clear();
+                    positionSumBs.Clear();
+                } else {
+                    wAvePrice = (wAvePrice / sizeSum);
+                    var info = new PositionSummaryInfo(
+                        wAvePrice,
+                        sizeSum,
+                        pnlSum,
+                        collateralSum,
+                        (ltp > 0 && wAvePrice > 0 ? (side == BitFlyerApiModel.SIDE_BUY ? ltp - wAvePrice : wAvePrice - ltp) : 0)
+                    );
+                    if (positionSumBs.Count == 0) positionSumBs.Add(info);
+                    else positionSumBs.List[0] = info;
+                }
             }
             lock (positionListLock) positionTimerLockFlg = false;
         }
 
+        public class PositionSummaryInfo
+        {
+            public decimal wAvePrice { get; set; }
+            public decimal sizeSum { get; set;}
+            public decimal pnlSum  { get; set;}
+            public decimal collateralSum { get; set; }
+            public decimal priceBand {get;set;}
+
+            public PositionSummaryInfo() { }
+            public PositionSummaryInfo(decimal wAvePrice, decimal sizeSum, decimal pnlSum, decimal collateralSum, decimal priceBand)
+            {
+                this.wAvePrice = wAvePrice;
+                this.sizeSum = sizeSum;
+                this.pnlSum = pnlSum;
+                this.collateralSum = collateralSum;
+                this.priceBand = priceBand;
+            }
+        }
+        
         /**
          * DataGridView用
          **/

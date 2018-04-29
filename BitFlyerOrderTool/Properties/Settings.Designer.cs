@@ -118,5 +118,17 @@ namespace BitFlyerOrderApp.Properties {
                 this["DEFAULT_ORDER_RETRY"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.5")]
+        public decimal DEFAULT_ORDER_SAFTY_LIMIT {
+            get {
+                return ((decimal)(this["DEFAULT_ORDER_SAFTY_LIMIT"]));
+            }
+            set {
+                this["DEFAULT_ORDER_SAFTY_LIMIT"] = value;
+            }
+        }
     }
 }

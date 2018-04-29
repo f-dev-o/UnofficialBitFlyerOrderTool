@@ -185,19 +185,21 @@
             // PriceSepalationValueLabel
             // 
             this.PriceSepalationValueLabel.AutoSize = true;
+            this.PriceSepalationValueLabel.Font = new System.Drawing.Font("メイリオ", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.PriceSepalationValueLabel.ForeColor = System.Drawing.Color.White;
             this.PriceSepalationValueLabel.Location = new System.Drawing.Point(106, 188);
             this.PriceSepalationValueLabel.Name = "PriceSepalationValueLabel";
-            this.PriceSepalationValueLabel.Size = new System.Drawing.Size(0, 20);
+            this.PriceSepalationValueLabel.Size = new System.Drawing.Size(0, 18);
             this.PriceSepalationValueLabel.TabIndex = 7;
             // 
             // CalcPriceValue
             // 
             this.CalcPriceValue.AutoSize = true;
+            this.CalcPriceValue.Font = new System.Drawing.Font("メイリオ", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.CalcPriceValue.ForeColor = System.Drawing.Color.White;
             this.CalcPriceValue.Location = new System.Drawing.Point(106, 168);
             this.CalcPriceValue.Name = "CalcPriceValue";
-            this.CalcPriceValue.Size = new System.Drawing.Size(0, 20);
+            this.CalcPriceValue.Size = new System.Drawing.Size(0, 18);
             this.CalcPriceValue.TabIndex = 10;
             // 
             // CalcPriceLabel
@@ -285,10 +287,11 @@
             // ServerStatusValueLabel
             // 
             this.ServerStatusValueLabel.AutoSize = true;
+            this.ServerStatusValueLabel.Font = new System.Drawing.Font("メイリオ", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.ServerStatusValueLabel.ForeColor = System.Drawing.Color.White;
             this.ServerStatusValueLabel.Location = new System.Drawing.Point(106, 208);
             this.ServerStatusValueLabel.Name = "ServerStatusValueLabel";
-            this.ServerStatusValueLabel.Size = new System.Drawing.Size(0, 20);
+            this.ServerStatusValueLabel.Size = new System.Drawing.Size(0, 18);
             this.ServerStatusValueLabel.TabIndex = 101;
             // 
             // ServerStatusLabel
@@ -365,7 +368,7 @@
             this.OrderResultValueLabel.AutoSize = true;
             this.OrderResultValueLabel.Font = new System.Drawing.Font("メイリオ", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
             this.OrderResultValueLabel.ForeColor = System.Drawing.Color.Lime;
-            this.OrderResultValueLabel.Location = new System.Drawing.Point(189, 208);
+            this.OrderResultValueLabel.Location = new System.Drawing.Point(174, 208);
             this.OrderResultValueLabel.Name = "OrderResultValueLabel";
             this.OrderResultValueLabel.Size = new System.Drawing.Size(0, 20);
             this.OrderResultValueLabel.TabIndex = 104;

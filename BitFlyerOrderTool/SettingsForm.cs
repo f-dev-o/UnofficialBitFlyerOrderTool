@@ -36,6 +36,7 @@ namespace BitFlyerOrderApp
             ActiveControl = APIInfoPanel;
             APIKeyInputBox.Text = Properties.Settings.Default.API_KEY;
             APISecretInputBox.Text = Properties.Settings.Default.API_SECRET;
+            SaftyLimitInputBox.Value = Properties.Settings.Default.DEFAULT_ORDER_SAFTY_LIMIT;
             SizeInputBox.Value = Properties.Settings.Default.DEFAULT_ORDER_SIZE;
             SetOrderExpire(Properties.Settings.Default.DEFAULT_EXPIRE_TIME);
             TimeInForceBox.SelectedItem = Properties.Settings.Default.DEFAULT_TIME_IN_FORCE;
@@ -45,6 +46,7 @@ namespace BitFlyerOrderApp
         {
             Properties.Settings.Default.API_KEY = APIKeyInputBox.Text;
             Properties.Settings.Default.API_SECRET = APISecretInputBox.Text;
+            Properties.Settings.Default.DEFAULT_ORDER_SAFTY_LIMIT = SaftyLimitInputBox.Value;
             Properties.Settings.Default.DEFAULT_ORDER_SIZE = SizeInputBox.Value;
             Properties.Settings.Default.DEFAULT_EXPIRE_TIME = GetOrderExpireValue();
             Properties.Settings.Default.DEFAULT_TIME_IN_FORCE = TimeInForceBox.SelectedItem.ToString();
