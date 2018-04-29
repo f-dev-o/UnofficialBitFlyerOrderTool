@@ -79,16 +79,19 @@ namespace BitFlyerOrderApp
 
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AppForm));
             this.SuspendLayout();
             // 
             // AppForm
             // 
             this.ClientSize = new System.Drawing.Size(284, 261);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "AppForm";
             this.ShowIcon = false;
             this.TopMost = true;
             this.ResumeLayout(false);
+
         }
     }
 }
