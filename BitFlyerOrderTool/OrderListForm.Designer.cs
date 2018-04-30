@@ -77,7 +77,6 @@
             this.PositionLabel = new System.Windows.Forms.Label();
             this.CancelResultTimer = new System.Windows.Forms.Timer(this.components);
             this.CancelResultValueLabel = new System.Windows.Forms.Label();
-            this.OrderListCloseButton = new System.Windows.Forms.Button();
             this.CancelAllButton = new System.Windows.Forms.Button();
             this.dummy = new System.Windows.Forms.Label();
             this.PositionCheckTImer = new System.Windows.Forms.Timer(this.components);
@@ -97,9 +96,18 @@
             this.PositionPnlSum = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PositionPriceBand = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PositionCollateralSum = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.CollateralValue = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.KeepRateValue = new System.Windows.Forms.TextBox();
+            this.CollateralCheckTimer = new System.Windows.Forms.Timer(this.components);
+            this.BrowserChartButton = new System.Windows.Forms.Button();
+            this.OrderListCloseButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.OrderGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PositionGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PositionSummaryGridView)).BeginInit();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // OrderGridView
@@ -340,21 +348,6 @@
             this.CancelResultValueLabel.Size = new System.Drawing.Size(0, 12);
             this.CancelResultValueLabel.TabIndex = 4;
             // 
-            // OrderListCloseButton
-            // 
-            this.OrderListCloseButton.BackgroundImage = global::BitFlyerOrderApp.Properties.Resources.close_16x16;
-            this.OrderListCloseButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.OrderListCloseButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.OrderListCloseButton.FlatAppearance.BorderSize = 0;
-            this.OrderListCloseButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.OrderListCloseButton.ForeColor = System.Drawing.Color.Firebrick;
-            this.OrderListCloseButton.Location = new System.Drawing.Point(2, 1);
-            this.OrderListCloseButton.Name = "OrderListCloseButton";
-            this.OrderListCloseButton.Size = new System.Drawing.Size(28, 28);
-            this.OrderListCloseButton.TabIndex = 104;
-            this.OrderListCloseButton.UseVisualStyleBackColor = true;
-            this.OrderListCloseButton.Click += new System.EventHandler(this.OrderListCloseButton_Click);
-            // 
             // CancelAllButton
             // 
             this.CancelAllButton.BackColor = System.Drawing.Color.DarkOrange;
@@ -462,7 +455,6 @@
             this.PositionGridView.ShowRowErrors = false;
             this.PositionGridView.Size = new System.Drawing.Size(600, 101);
             this.PositionGridView.TabIndex = 1;
-            this.PositionGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.PositionGridView_CellContentClick);
             // 
             // PositionGridView_open_date
             // 
@@ -668,12 +660,123 @@
             this.PositionCollateralSum.HeaderText = "取引証拠金合計";
             this.PositionCollateralSum.Name = "PositionCollateralSum";
             // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.tableLayoutPanel1.ColumnCount = 4;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 70F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Controls.Add(this.CollateralValue, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.label1, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.label2, 2, 1);
+            this.tableLayoutPanel1.Controls.Add(this.KeepRateValue, 3, 1);
+            this.tableLayoutPanel1.Font = new System.Drawing.Font("メイリオ", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(310, 163);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(290, 30);
+            this.tableLayoutPanel1.TabIndex = 113;
+            // 
+            // CollateralValue
+            // 
+            this.CollateralValue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.CollateralValue.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.CollateralValue.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.CollateralValue.Font = new System.Drawing.Font("メイリオ", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.CollateralValue.ForeColor = System.Drawing.Color.White;
+            this.CollateralValue.Location = new System.Drawing.Point(73, 15);
+            this.CollateralValue.Margin = new System.Windows.Forms.Padding(3, 0, 0, 3);
+            this.CollateralValue.Name = "CollateralValue";
+            this.CollateralValue.ReadOnly = true;
+            this.CollateralValue.Size = new System.Drawing.Size(72, 17);
+            this.CollateralValue.TabIndex = 6;
+            this.CollateralValue.TabStop = false;
+            this.CollateralValue.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("メイリオ", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label1.Location = new System.Drawing.Point(3, 15);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(63, 15);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "預入証拠金";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("メイリオ", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label2.Location = new System.Drawing.Point(148, 15);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(63, 15);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "証拠金維持率";
+            // 
+            // KeepRateValue
+            // 
+            this.KeepRateValue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.KeepRateValue.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.KeepRateValue.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.KeepRateValue.Font = new System.Drawing.Font("メイリオ", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.KeepRateValue.ForeColor = System.Drawing.Color.White;
+            this.KeepRateValue.Location = new System.Drawing.Point(218, 15);
+            this.KeepRateValue.Margin = new System.Windows.Forms.Padding(3, 0, 0, 3);
+            this.KeepRateValue.Name = "KeepRateValue";
+            this.KeepRateValue.ReadOnly = true;
+            this.KeepRateValue.Size = new System.Drawing.Size(72, 17);
+            this.KeepRateValue.TabIndex = 7;
+            this.KeepRateValue.TabStop = false;
+            this.KeepRateValue.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // CollateralCheckTimer
+            // 
+            this.CollateralCheckTimer.Enabled = true;
+            this.CollateralCheckTimer.Interval = 1000;
+            this.CollateralCheckTimer.Tick += new System.EventHandler(this.CollateralCheckTimer_Tick);
+            // 
+            // BrowserChartButton
+            // 
+            this.BrowserChartButton.BackgroundImage = global::BitFlyerOrderApp.Properties.Resources.chart_16x16;
+            this.BrowserChartButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.BrowserChartButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.BrowserChartButton.FlatAppearance.BorderSize = 0;
+            this.BrowserChartButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BrowserChartButton.ForeColor = System.Drawing.Color.Firebrick;
+            this.BrowserChartButton.Location = new System.Drawing.Point(96, 1);
+            this.BrowserChartButton.Name = "BrowserChartButton";
+            this.BrowserChartButton.Size = new System.Drawing.Size(28, 28);
+            this.BrowserChartButton.TabIndex = 114;
+            this.BrowserChartButton.UseVisualStyleBackColor = true;
+            this.BrowserChartButton.Click += new System.EventHandler(this.BrowserChartButton_Click);
+            // 
+            // OrderListCloseButton
+            // 
+            this.OrderListCloseButton.BackgroundImage = global::BitFlyerOrderApp.Properties.Resources.close_16x16;
+            this.OrderListCloseButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.OrderListCloseButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.OrderListCloseButton.FlatAppearance.BorderSize = 0;
+            this.OrderListCloseButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.OrderListCloseButton.ForeColor = System.Drawing.Color.Firebrick;
+            this.OrderListCloseButton.Location = new System.Drawing.Point(2, 1);
+            this.OrderListCloseButton.Name = "OrderListCloseButton";
+            this.OrderListCloseButton.Size = new System.Drawing.Size(28, 28);
+            this.OrderListCloseButton.TabIndex = 104;
+            this.OrderListCloseButton.UseVisualStyleBackColor = true;
+            this.OrderListCloseButton.Click += new System.EventHandler(this.OrderListCloseButton_Click);
+            // 
             // OrderListForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.ClientSize = new System.Drawing.Size(600, 318);
+            this.Controls.Add(this.BrowserChartButton);
+            this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.PositionSummaryGridView);
             this.Controls.Add(this.PositionSummaryHeaderLabel);
             this.Controls.Add(this.dummy);
@@ -693,6 +796,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.OrderGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PositionGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PositionSummaryGridView)).EndInit();
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -736,5 +841,12 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn PositionPnlSum;
         private System.Windows.Forms.DataGridViewTextBoxColumn PositionPriceBand;
         private System.Windows.Forms.DataGridViewTextBoxColumn PositionCollateralSum;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox CollateralValue;
+        private System.Windows.Forms.TextBox KeepRateValue;
+        private System.Windows.Forms.Timer CollateralCheckTimer;
+        private System.Windows.Forms.Button BrowserChartButton;
     }
 }

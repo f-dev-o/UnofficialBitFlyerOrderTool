@@ -40,35 +40,27 @@ namespace BitFlyerOrderApp
 
             ApplyMouseMove<System.Windows.Forms.Label>(this);
             ApplyMouseMove<DataGridView>(this);
-
-            orderBs = new BindingSource
-            {
-                AllowNew = true,
-                DataSource = new BindingList<OrderInfo>()
-            };
-            OrderGridView.AutoGenerateColumns = false;
-            OrderGridView.DataSource = orderBs;
-
-            positionBs = new BindingSource
-            {
-                AllowNew = true,
-                DataSource = new BindingList<PositionInfoResponseJson>()
-            };
-            PositionGridView.AutoGenerateColumns = false;
-            PositionGridView.DataSource = positionBs;
-
-            positionSumBs = new BindingSource
-            {
-                AllowNew = true,
-                DataSource = new BindingList<PositionSummaryInfo>()
-            };
-            PositionSummaryGridView.AutoGenerateColumns = false;
-            PositionSummaryGridView.DataSource = positionSumBs;
+            
+            orderBs = InitializeGridView<OrderInfo>(OrderGridView);
+            positionBs = InitializeGridView<PositionInfoResponseJson>(PositionGridView);
+            positionSumBs = InitializeGridView<PositionSummaryInfo>(PositionSummaryGridView);
         }
-
         private void OrderListForm_Load(object sender, EventArgs e)
         {
         }
+
+        private BindingSource InitializeGridView<T>(DataGridView grid)
+        {
+            var bs = new BindingSource
+            {
+                AllowNew = true,
+                DataSource = new BindingList<T>()
+            };
+            grid.AutoGenerateColumns = false;
+            grid.DataSource = bs;
+            return bs;
+        }
+
 
         private async void OrderGridView_Timer(object sender, EventArgs e)
         {
@@ -360,6 +352,11 @@ namespace BitFlyerOrderApp
             Hide();
         }
 
+        private void BrowserChartButton_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://kuromat.ch/");
+        }
+
         private async void CancelAllButton_Click(object sender, EventArgs e)
         {
             OrderCheckTimer.Stop();
@@ -370,13 +367,18 @@ namespace BitFlyerOrderApp
             OrderCheckTimer.Start();
         }
 
-        public void StartTimer() => OrderCheckTimer.Start();
 
-        private void PositionGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private async void CollateralCheckTimer_Tick(object sender, EventArgs e)
         {
-
+            var timer = (Timer)sender;
+            timer.Stop();
+            var collateral = await BitFlyerApiModel.GetCollateral();
+            if(collateral != null)
+            {
+                CollateralValue.Text = collateral.collateral.ToString("N0")+"円";
+                KeepRateValue.Text = collateral.keep_rate.ToString("P1");
+            }
+            timer.Start();
         }
-
-        public void StopTimer() => OrderCheckTimer.Stop();
     }
 }

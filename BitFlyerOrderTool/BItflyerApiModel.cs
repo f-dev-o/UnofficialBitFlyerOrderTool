@@ -132,6 +132,28 @@ public class BitFlyerApiModel
     }
 
     /**
+     * 証拠金の状態
+     * 月次損益、日時損益はAPIで取得不能
+     **/
+    public static async Task<CollateralResponseJson> GetCollateral()
+    {
+        var method = "GET";
+        var path = "/v1/me/getcollateral";
+        var query = "";
+        var response = await SendPrivateApiRequest(method, path, query, "");
+        if (response == null) return null;
+        try
+        {
+            return JsonUtility.Deserialize<CollateralResponseJson>(response.responseBody);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+            return null;
+        }
+    }
+
+    /**
      * 注文一覧
      **/
     public static async Task<List<HoldOrderInfoResponseJson>> GetOrderList()
@@ -337,6 +359,20 @@ public class ResponseObject
         this.responseHeader = responseHeader;
         this.responseBody = responseBody;
     }
+}
+
+
+[DataContract]
+public class CollateralResponseJson
+{
+    [DataMember]
+    public decimal collateral { get; set; }
+    [DataMember]
+    public decimal open_position_pnl { get; set; }
+    [DataMember]
+    public decimal require_collateral { get; set; }
+    [DataMember]
+    public decimal keep_rate { get; set; }
 }
 
 [DataContract]
