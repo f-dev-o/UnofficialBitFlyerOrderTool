@@ -73,6 +73,26 @@ namespace BitFlyerOrderApp.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
+        internal static System.Drawing.Bitmap bitcap_16x_16 {
+            get {
+                object obj = ResourceManager.GetObject("bitcap_16x_16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Bitmap bitflyer_w_16x16 {
+            get {
+                object obj = ResourceManager.GetObject("bitflyer_w_16x16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
         internal static System.Drawing.Bitmap chart_16x16 {
             get {
                 object obj = ResourceManager.GetObject("chart_16x16", resourceCulture);
@@ -93,9 +113,9 @@ namespace BitFlyerOrderApp.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap loading_buy {
+        internal static System.Drawing.Bitmap inago_16x16 {
             get {
-                object obj = ResourceManager.GetObject("loading_buy", resourceCulture);
+                object obj = ResourceManager.GetObject("inago_16x16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -103,9 +123,29 @@ namespace BitFlyerOrderApp.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
-        internal static System.Drawing.Bitmap loading_sell {
+        internal static System.Drawing.Bitmap inv_16x16 {
             get {
-                object obj = ResourceManager.GetObject("loading_sell", resourceCulture);
+                object obj = ResourceManager.GetObject("inv_16x16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Bitmap invasting {
+            get {
+                object obj = ResourceManager.GetObject("invasting", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Bitmap invasting_16x16 {
+            get {
+                object obj = ResourceManager.GetObject("invasting_16x16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -136,6 +176,16 @@ namespace BitFlyerOrderApp.Properties {
         internal static System.Drawing.Bitmap setting_16x16 {
             get {
                 object obj = ResourceManager.GetObject("setting_16x16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
+        internal static System.Drawing.Bitmap tradingview_16x16 {
+            get {
+                object obj = ResourceManager.GetObject("tradingview_16x16", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

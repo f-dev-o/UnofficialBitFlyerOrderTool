@@ -119,6 +119,11 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="SettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -137,14 +142,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <EmbeddedResource Include="SettingsForm.resx">
       <DependentUpon>SettingsForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -181,12 +181,6 @@
     <None Include="Resources\report_16x16.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\loading_buy.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\loading_sell.gif" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\close_16x16.png" />
   </ItemGroup>
   <ItemGroup>
@@ -203,6 +197,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\chart_16x16.png" />
+    <None Include="Resources\bitflyer_w_16x16.png" />
+    <None Include="Resources\inago_16x16.png" />
+    <None Include="Resources\invasting.ico" />
+    <None Include="Resources\invasting_16x16.png" />
+    <None Include="Resources\inv_16x16.png" />
+    <None Include="Resources\bitcap_16x_16.png" />
+    <None Include="Resources\tradingview_16x16.png" />
     <Content Include="unofficial.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

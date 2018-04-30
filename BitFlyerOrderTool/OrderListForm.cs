@@ -357,6 +357,26 @@ namespace BitFlyerOrderApp
             System.Diagnostics.Process.Start("https://kuromat.ch/");
         }
 
+        private void BrowserBitFlyerButton_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://lightning.bitflyer.jp/");
+        }
+
+        private void BrowseInagoButton_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://inagoflyer.appspot.com/btcmac");
+        }
+
+        private void BrowseInvButton_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://jp.investing.com/crypto/bitcoin/btc-jpy-technical");
+        }
+
+        private void BrowserCMCButton_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://coinmarketcap.com/currencies/bitcoin/#markets");
+        }
+
         private async void CancelAllButton_Click(object sender, EventArgs e)
         {
             OrderCheckTimer.Stop();

@@ -102,6 +102,11 @@
             this.label2 = new System.Windows.Forms.Label();
             this.KeepRateValue = new System.Windows.Forms.TextBox();
             this.CollateralCheckTimer = new System.Windows.Forms.Timer(this.components);
+            this.BrowseTradingViewButton = new System.Windows.Forms.Button();
+            this.BrowserCMCButton = new System.Windows.Forms.Button();
+            this.BrowseInvButton = new System.Windows.Forms.Button();
+            this.BrowseInagoButton = new System.Windows.Forms.Button();
+            this.BrowserBitFlyerButton = new System.Windows.Forms.Button();
             this.BrowserChartButton = new System.Windows.Forms.Button();
             this.OrderListCloseButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.OrderGridView)).BeginInit();
@@ -739,6 +744,85 @@
             this.CollateralCheckTimer.Interval = 1000;
             this.CollateralCheckTimer.Tick += new System.EventHandler(this.CollateralCheckTimer_Tick);
             // 
+            // BrowseTradingViewButton
+            // 
+            this.BrowseTradingViewButton.BackgroundImage = global::BitFlyerOrderApp.Properties.Resources.tradingview_16x16;
+            this.BrowseTradingViewButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.BrowseTradingViewButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.BrowseTradingViewButton.FlatAppearance.BorderSize = 0;
+            this.BrowseTradingViewButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BrowseTradingViewButton.ForeColor = System.Drawing.Color.Firebrick;
+            this.BrowseTradingViewButton.Location = new System.Drawing.Point(145, 2);
+            this.BrowseTradingViewButton.Name = "BrowseTradingViewButton";
+            this.BrowseTradingViewButton.Size = new System.Drawing.Size(28, 28);
+            this.BrowseTradingViewButton.TabIndex = 119;
+            this.BrowseTradingViewButton.TabStop = false;
+            this.BrowseTradingViewButton.UseVisualStyleBackColor = true;
+            // 
+            // BrowserCMCButton
+            // 
+            this.BrowserCMCButton.BackgroundImage = global::BitFlyerOrderApp.Properties.Resources.bitcap_16x_16;
+            this.BrowserCMCButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.BrowserCMCButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.BrowserCMCButton.FlatAppearance.BorderSize = 0;
+            this.BrowserCMCButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BrowserCMCButton.ForeColor = System.Drawing.Color.Firebrick;
+            this.BrowserCMCButton.Location = new System.Drawing.Point(252, 2);
+            this.BrowserCMCButton.Name = "BrowserCMCButton";
+            this.BrowserCMCButton.Size = new System.Drawing.Size(28, 28);
+            this.BrowserCMCButton.TabIndex = 118;
+            this.BrowserCMCButton.TabStop = false;
+            this.BrowserCMCButton.UseVisualStyleBackColor = true;
+            this.BrowserCMCButton.Click += new System.EventHandler(this.BrowserCMCButton_Click);
+            // 
+            // BrowseInvButton
+            // 
+            this.BrowseInvButton.BackgroundImage = global::BitFlyerOrderApp.Properties.Resources.inv_16x16;
+            this.BrowseInvButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.BrowseInvButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.BrowseInvButton.FlatAppearance.BorderSize = 0;
+            this.BrowseInvButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BrowseInvButton.ForeColor = System.Drawing.Color.Firebrick;
+            this.BrowseInvButton.Location = new System.Drawing.Point(226, 2);
+            this.BrowseInvButton.Name = "BrowseInvButton";
+            this.BrowseInvButton.Size = new System.Drawing.Size(28, 28);
+            this.BrowseInvButton.TabIndex = 117;
+            this.BrowseInvButton.TabStop = false;
+            this.BrowseInvButton.UseVisualStyleBackColor = true;
+            this.BrowseInvButton.Click += new System.EventHandler(this.BrowseInvButton_Click);
+            // 
+            // BrowseInagoButton
+            // 
+            this.BrowseInagoButton.BackgroundImage = global::BitFlyerOrderApp.Properties.Resources.inago_16x16;
+            this.BrowseInagoButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.BrowseInagoButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.BrowseInagoButton.FlatAppearance.BorderSize = 0;
+            this.BrowseInagoButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BrowseInagoButton.ForeColor = System.Drawing.Color.Firebrick;
+            this.BrowseInagoButton.Location = new System.Drawing.Point(168, 2);
+            this.BrowseInagoButton.Name = "BrowseInagoButton";
+            this.BrowseInagoButton.Size = new System.Drawing.Size(28, 28);
+            this.BrowseInagoButton.TabIndex = 116;
+            this.BrowseInagoButton.TabStop = false;
+            this.BrowseInagoButton.UseVisualStyleBackColor = true;
+            this.BrowseInagoButton.Click += new System.EventHandler(this.BrowseInagoButton_Click);
+            // 
+            // BrowserBitFlyerButton
+            // 
+            this.BrowserBitFlyerButton.BackgroundImage = global::BitFlyerOrderApp.Properties.Resources.bitflyer_w_16x16;
+            this.BrowserBitFlyerButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.BrowserBitFlyerButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.BrowserBitFlyerButton.FlatAppearance.BorderSize = 0;
+            this.BrowserBitFlyerButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BrowserBitFlyerButton.ForeColor = System.Drawing.Color.Firebrick;
+            this.BrowserBitFlyerButton.Location = new System.Drawing.Point(96, 2);
+            this.BrowserBitFlyerButton.Name = "BrowserBitFlyerButton";
+            this.BrowserBitFlyerButton.Size = new System.Drawing.Size(28, 28);
+            this.BrowserBitFlyerButton.TabIndex = 115;
+            this.BrowserBitFlyerButton.TabStop = false;
+            this.BrowserBitFlyerButton.UseVisualStyleBackColor = true;
+            this.BrowserBitFlyerButton.Click += new System.EventHandler(this.BrowserBitFlyerButton_Click);
+            // 
             // BrowserChartButton
             // 
             this.BrowserChartButton.BackgroundImage = global::BitFlyerOrderApp.Properties.Resources.chart_16x16;
@@ -747,10 +831,11 @@
             this.BrowserChartButton.FlatAppearance.BorderSize = 0;
             this.BrowserChartButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.BrowserChartButton.ForeColor = System.Drawing.Color.Firebrick;
-            this.BrowserChartButton.Location = new System.Drawing.Point(96, 1);
+            this.BrowserChartButton.Location = new System.Drawing.Point(122, 2);
             this.BrowserChartButton.Name = "BrowserChartButton";
             this.BrowserChartButton.Size = new System.Drawing.Size(28, 28);
             this.BrowserChartButton.TabIndex = 114;
+            this.BrowserChartButton.TabStop = false;
             this.BrowserChartButton.UseVisualStyleBackColor = true;
             this.BrowserChartButton.Click += new System.EventHandler(this.BrowserChartButton_Click);
             // 
@@ -775,6 +860,11 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.ClientSize = new System.Drawing.Size(600, 318);
+            this.Controls.Add(this.BrowseTradingViewButton);
+            this.Controls.Add(this.BrowserCMCButton);
+            this.Controls.Add(this.BrowseInvButton);
+            this.Controls.Add(this.BrowseInagoButton);
+            this.Controls.Add(this.BrowserBitFlyerButton);
             this.Controls.Add(this.BrowserChartButton);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.PositionSummaryGridView);
@@ -848,5 +938,10 @@
         private System.Windows.Forms.TextBox KeepRateValue;
         private System.Windows.Forms.Timer CollateralCheckTimer;
         private System.Windows.Forms.Button BrowserChartButton;
+        private System.Windows.Forms.Button BrowserBitFlyerButton;
+        private System.Windows.Forms.Button BrowseInagoButton;
+        private System.Windows.Forms.Button BrowseInvButton;
+        private System.Windows.Forms.Button BrowserCMCButton;
+        private System.Windows.Forms.Button BrowseTradingViewButton;
     }
 }
