@@ -29,5 +29,8 @@
     <Setting Name="DEFAULT_ORDER_SAFTY_LIMIT" Type="System.Decimal" Scope="User">
       <Value Profile="(Default)">0.5</Value>
     </Setting>
+    <Setting Name="DEFAULT_INPUT_PRICE_FIX" Type="System.String" Scope="User">
+      <Value Profile="(Default)">NONE</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

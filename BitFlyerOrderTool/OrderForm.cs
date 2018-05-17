@@ -15,6 +15,7 @@ namespace BitFlyerOrderApp
     public partial class OrderForm : AppForm
     {
         static private decimal OrderSaftyLimit { get { return BitFlyerOrderApp.Properties.Settings.Default.DEFAULT_ORDER_SAFTY_LIMIT; } }
+        static private string FixInputPrice { get { return BitFlyerOrderApp.Properties.Settings.Default.DEFAULT_INPUT_PRICE_FIX; } }
 
         public OrderForm() : base()
         {
@@ -42,6 +43,19 @@ namespace BitFlyerOrderApp
             var inputPrice = PriceInputBox.Value;
             var ltp = BitFlyerApiModel.getLastFxLtp();
             var side = (button.Name == "BuyButton") ? BitFlyerApiModel.SIDE_BUY : BitFlyerApiModel.SIDE_SELL;
+            if (FixInputPrice == "ExceptPopularPrice")
+            {
+                // 50で割り切れる数字はNG
+                if(inputPrice % 50 == 0)
+                {
+                    inputPrice = inputPrice + (side == BitFlyerApiModel.SIDE_BUY ? 3 : -3);
+                }
+                // 1は避ける 99も避ける
+                if(inputPrice % 10 == 1 || inputPrice % 100 == 99)
+                {
+                    inputPrice = inputPrice + (side == BitFlyerApiModel.SIDE_BUY ? 3 : -3);
+                }
+            }
 
             if (ltp < 0)
             {
@@ -78,7 +92,7 @@ namespace BitFlyerOrderApp
                 
                 button.Enabled = false;
 
-                var result = await BitFlyerApiModel.Order(side, PriceInputBox.Value, SizeInputBox.Value, GetOrderExpireValue());
+                var result = await BitFlyerApiModel.Order(side, inputPrice, SizeInputBox.Value, GetOrderExpireValue());
                 var acceptId = result;
                 bool isSuccess = acceptId != null && acceptId.Length > 0 ? true : false;
 
@@ -87,7 +101,7 @@ namespace BitFlyerOrderApp
                         BitFlyerApiModel.CHILD_ORDER_TYPE_LIMIT
                         , DateTime.UtcNow.ToString()
                         , side
-                        , PriceInputBox.Value
+                        , inputPrice
                         , SizeInputBox.Value
                         , acceptId);
                 }
@@ -102,7 +116,9 @@ namespace BitFlyerOrderApp
         private async void LoadPriceButton_Click(object sender, EventArgs e)
         {
             var price = await BitFlyerApiModel.GetFxLastPrice();
-            if(price > 0) PriceInputBox.Value = price;
+            if (price > 0) {
+                 PriceInputBox.Value = price;
+            }
         }
 
         /**
@@ -163,7 +179,7 @@ namespace BitFlyerOrderApp
                 default: OrderExpire1.Checked = true; break;
             }
         }
-
+        
         /**
          * オーダー一覧表示
          **/

@@ -130,5 +130,17 @@ namespace BitFlyerOrderApp.Properties {
                 this["DEFAULT_ORDER_SAFTY_LIMIT"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("NONE")]
+        public string DEFAULT_INPUT_PRICE_FIX {
+            get {
+                return ((string)(this["DEFAULT_INPUT_PRICE_FIX"]));
+            }
+            set {
+                this["DEFAULT_INPUT_PRICE_FIX"] = value;
+            }
+        }
     }
 }

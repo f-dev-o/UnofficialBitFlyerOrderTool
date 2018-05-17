@@ -51,6 +51,8 @@
             this.OrderSaftyLabel = new System.Windows.Forms.Label();
             this.SaftyLimitInputBox = new System.Windows.Forms.NumericUpDown();
             this.OrderSaftySuffixLabel = new System.Windows.Forms.Label();
+            this.InputPriceFixBox = new System.Windows.Forms.ComboBox();
+            this.InputPriceFixLabel = new System.Windows.Forms.Label();
             this.OrderExpirePanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SizeInputBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.OrderRetryInputBox)).BeginInit();
@@ -338,12 +340,40 @@
             this.OrderSaftySuffixLabel.TabIndex = 107;
             this.OrderSaftySuffixLabel.Text = "%";
             // 
+            // InputPriceFixBox
+            // 
+            this.InputPriceFixBox.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.InputPriceFixBox.BackColor = System.Drawing.Color.DarkGray;
+            this.InputPriceFixBox.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.InputPriceFixBox.ForeColor = System.Drawing.Color.White;
+            this.InputPriceFixBox.FormattingEnabled = true;
+            this.InputPriceFixBox.ItemHeight = 20;
+            this.InputPriceFixBox.Items.AddRange(new object[] {
+            "NONE",
+            "ExceptPopularPrice"});
+            this.InputPriceFixBox.Location = new System.Drawing.Point(101, 323);
+            this.InputPriceFixBox.Name = "InputPriceFixBox";
+            this.InputPriceFixBox.Size = new System.Drawing.Size(169, 28);
+            this.InputPriceFixBox.TabIndex = 108;
+            // 
+            // InputPriceFixLabel
+            // 
+            this.InputPriceFixLabel.AutoSize = true;
+            this.InputPriceFixLabel.ForeColor = System.Drawing.Color.White;
+            this.InputPriceFixLabel.Location = new System.Drawing.Point(12, 326);
+            this.InputPriceFixLabel.Name = "InputPriceFixLabel";
+            this.InputPriceFixLabel.Size = new System.Drawing.Size(87, 20);
+            this.InputPriceFixLabel.TabIndex = 109;
+            this.InputPriceFixLabel.Text = "入札価格補正";
+            // 
             // SettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.ClientSize = new System.Drawing.Size(325, 330);
+            this.ClientSize = new System.Drawing.Size(325, 360);
+            this.Controls.Add(this.InputPriceFixBox);
+            this.Controls.Add(this.InputPriceFixLabel);
             this.Controls.Add(this.OrderSaftySuffixLabel);
             this.Controls.Add(this.OrderSaftyLabel);
             this.Controls.Add(this.SaftyLimitInputBox);
@@ -409,5 +439,7 @@
         private System.Windows.Forms.Label OrderSaftyLabel;
         private System.Windows.Forms.NumericUpDown SaftyLimitInputBox;
         private System.Windows.Forms.Label OrderSaftySuffixLabel;
+        private System.Windows.Forms.ComboBox InputPriceFixBox;
+        private System.Windows.Forms.Label InputPriceFixLabel;
     }
 }

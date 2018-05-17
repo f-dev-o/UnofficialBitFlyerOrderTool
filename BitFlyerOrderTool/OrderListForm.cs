@@ -26,6 +26,8 @@ namespace BitFlyerOrderApp
         }
 
         Dictionary<string, OrderInfo> bsMap = new Dictionary<string, OrderInfo>();
+        Dictionary<string, PositionSummaryInfo> posMap = new Dictionary<string, PositionSummaryInfo>();
+        
         // 2箇所でしか使わないので雑処理m(__)m
         Object orderListLock = new object();
         bool orderTimerLockFlg = false;
@@ -211,10 +213,12 @@ namespace BitFlyerOrderApp
                 if (positionTimerLockFlg) return;
                 positionTimerLockFlg = true;
             }
+
             var list = await BitFlyerApiModel.GetPositionList();
             var ltp = BitFlyerApiModel.getLastFxLtp();
             if (list != null)
             {
+                positionBs.Clear();
                 decimal wAvePrice = 0, sizeSum = 0, pnlSum = 0, collateralSum = 0;
                 string side = "";
                 list.ForEach(row =>
