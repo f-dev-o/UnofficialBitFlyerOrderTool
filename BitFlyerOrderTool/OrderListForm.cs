@@ -145,7 +145,7 @@ namespace BitFlyerOrderApp
                         // 今回の確認リストにないが、既に承認済みのレコードは消去
                         // 注文確定待ち(childOrderIdが未発行の物は残したい)
                         if (orderInfo.ChildOrderId != null
-                            || orderInfo.CheckCounter++ > 15)
+                            || orderInfo.CheckCounter++ > 30)
                         {
                             orderBs.List.Remove(bsMap[childId]);
                             bsMap.Remove(childId);
@@ -218,46 +218,51 @@ namespace BitFlyerOrderApp
             var ltp = BitFlyerApiModel.getLastFxLtp();
             if (list != null)
             {
-                positionBs.Clear();
-                decimal wAvePrice = 0, sizeSum = 0, pnlSum = 0, collateralSum = 0;
-                string side = "";
-                list.ForEach(row =>
+                lock (positionBs)
                 {
-                    side = row.side;
-                    // ltpが取得できていたら値幅を計算
-                    if (ltp > 0) row.PriceBand = (side == BitFlyerApiModel.SIDE_BUY ? ltp - row.price : row.price - ltp);
-                    wAvePrice += row.price * row.size;
-                    sizeSum += row.size;
-                    pnlSum += row.pnl;
-                    collateralSum += row.require_collateral;
-
-                    // 既にGridに追加されていれば上書きする
-                    var index = positionBs.List.IndexOf(row);
-                    if (index >= 0)
+                    positionBs.Clear();
+                    decimal wAvePrice = 0, sizeSum = 0, pnlSum = 0, collateralSum = 0;
+                    string side = "";
+                    list.ForEach(row =>
                     {
-                        positionBs.List[index] = row;
+                        side = row.side;
+                        // ltpが取得できていたら値幅を計算
+                        if (ltp > 0) row.PriceBand = (side == BitFlyerApiModel.SIDE_BUY ? ltp - row.price : row.price - ltp);
+                        wAvePrice += row.price * row.size;
+                        sizeSum += row.size;
+                        pnlSum += row.pnl;
+                        collateralSum += row.require_collateral;
+
+                        // 既にGridに追加されていれば上書きする
+                        var index = positionBs.List.IndexOf(row);
+                        if (index >= 0)
+                        {
+                            positionBs.List[index] = row;
+                        }
+                        else
+                        {
+                            positionBs.Add(row);
+                        }
+                    });
+
+                    if (list.Count == 0)
+                    {
+                        positionBs.Clear();
+                        positionSumBs.Clear();
                     }
                     else
                     {
-                        positionBs.Add(row);
+                        wAvePrice = (wAvePrice / sizeSum);
+                        var info = new PositionSummaryInfo(
+                            wAvePrice,
+                            sizeSum,
+                            pnlSum,
+                            collateralSum,
+                            (ltp > 0 && wAvePrice > 0 ? (side == BitFlyerApiModel.SIDE_BUY ? ltp - wAvePrice : wAvePrice - ltp) : 0)
+                        );
+                        if (positionSumBs.Count == 0) positionSumBs.Add(info);
+                        else positionSumBs.List[0] = info;
                     }
-                });
-
-                if (list.Count == 0)
-                {
-                    positionBs.Clear();
-                    positionSumBs.Clear();
-                } else {
-                    wAvePrice = (wAvePrice / sizeSum);
-                    var info = new PositionSummaryInfo(
-                        wAvePrice,
-                        sizeSum,
-                        pnlSum,
-                        collateralSum,
-                        (ltp > 0 && wAvePrice > 0 ? (side == BitFlyerApiModel.SIDE_BUY ? ltp - wAvePrice : wAvePrice - ltp) : 0)
-                    );
-                    if (positionSumBs.Count == 0) positionSumBs.Add(info);
-                    else positionSumBs.List[0] = info;
                 }
             }
             lock (positionListLock) positionTimerLockFlg = false;

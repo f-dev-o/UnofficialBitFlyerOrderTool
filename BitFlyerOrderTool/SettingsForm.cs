@@ -41,7 +41,7 @@ namespace BitFlyerOrderApp
             SetOrderExpire(Properties.Settings.Default.DEFAULT_EXPIRE_TIME);
             TimeInForceBox.SelectedItem = Properties.Settings.Default.DEFAULT_TIME_IN_FORCE;
             OrderRetryInputBox.Value = Properties.Settings.Default.DEFAULT_ORDER_RETRY;
-            InputPriceFixBox.ValueMember = Properties.Settings.Default.DEFAULT_INPUT_PRICE_FIX;
+            InputPriceFixBox.SelectedItem = Properties.Settings.Default.DEFAULT_INPUT_PRICE_FIX;
         }
         private void SaveButton_Click(object sender, EventArgs e)
         {
